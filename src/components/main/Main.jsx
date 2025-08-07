@@ -27,7 +27,7 @@ function Main({ isOpen, onClose }) {
           />
           <button
             onClick={onClose}
-            className="flex h-[56px] w-[52px] items-center justify-center hover:bg-neutral-100"
+            className="flex h-[56px] w-[52px] items-center justify-center"
           >
             <HiMiniXMark className="text-[22px]" />
           </button>

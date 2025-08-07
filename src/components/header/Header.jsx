@@ -8,8 +8,12 @@ function Header({ onHamburgerClick }) {
   return (
     <>  
        <div className="flex h-[56px] items-center pl-2 justify-between xs:pr-[10px]">
-          <div className="flex gap-1" onClick={onHamburgerClick}>
-            <div><GiHamburgerMenu/></div>
+          <div 
+            className="flex gap-1"
+            onClick={onHamburgerClick}>
+            <div>
+              <GiHamburgerMenu/>
+            </div>
             <span className="text-[10px]">MENÜ</span>
           </div> 
           <div className="flex items-center pl-2">
