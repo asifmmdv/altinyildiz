@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body{
+  font-family: "Urbanist", sans-serif;
+}
+
+@theme {
+  --breakpoint-xs: 360px;
+}
