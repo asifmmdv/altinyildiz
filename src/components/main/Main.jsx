@@ -21,7 +21,7 @@ function Main({ isOpen, onClose }) {
       >
         <div className="flex h-[56px] items-center justify-between pl-5 w-full">
           <img
-            src="src/assets/img/logo.png"
+            src="public/img/logo.png"
             alt="logo"
             className="h-[16px] w-[148px]"
           />
