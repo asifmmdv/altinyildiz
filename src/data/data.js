@@ -12,8 +12,52 @@ export const data = {
               "name": "Takım Elbise",
               "slug": "takim-elbise",
               "subcategories": [
-                { "name": "Klasik Takım Elbise", "slug": "klasik-takim-elbise" },
-                { "name": "Nano Takım Elbise", "slug": "nano-takim-elbise" }
+                {
+                  "name": "Klasik Takım Elbise",
+                  "slug": "klasik-takim-elbise",
+                  "products": [
+                    {
+                      "id": "4A3023100029BRD",
+                      "name": "Slim Fit Dar Kesim Mono Yaka Desenli Bordo Takım Elbise",
+                      "price": "2999,99 TL",
+                      "sizes": [
+                        "46-6N",
+                        "48-6N",
+                        "50-6N",
+                        "52-6N",
+                        "54-6N",
+                        "56-6N",
+                        "58-6N"
+                      ],
+                      "images": [
+                        "/img/klasiktakim1.jpg",
+                        "/img/klasiktakim2.jpg",
+                        "/img/klasiktakim3.jpg",
+                        "/img/klasiktakim4.jpg",
+                        "/img/klasiktakim5.jpg",
+                        "/img/klasiktakim6.jpg"
+                      ],
+                      "details": [
+                        "%77 POLIESTER",
+                        "%20 VISKOZ",
+                        "%3 ELASTAN",
+                        "DESENLI",
+                        "Slim Fit",
+                        "MONO YAKA",
+                        "Uzun Kol",
+                        "Tam Astar",
+                        "Çift Yırtmaç",
+                        "KAPAK CEP",
+                        "Normal Bel",
+                        "Dar Paça"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Nano Takım Elbise",
+                  "slug": "nano-takim-elbise"
+                }
               ]
             },
             {

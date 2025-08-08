@@ -47,7 +47,7 @@ function Main({ isOpen, onClose }) {
           {categoryStack.length > 0 ? (
             <button
               onClick={goBack}
-              className="text-[16px] flex items-center text-black"
+              className="text-[16px] flex items-center text-black cursor-pointer"
             >
               <RiArrowLeftLine className="mr-4 text-[20px]" />
               <span>{currentCategory?.name}</span>
@@ -61,7 +61,7 @@ function Main({ isOpen, onClose }) {
           )}
           <button
             onClick={onClose}
-            className="flex h-[56px] w-[52px] items-center justify-center"
+            className="flex h-[56px] w-[52px] items-center justify-center cursor-pointer"
           >
             <HiMiniXMark className="text-[22px] text-black" />
           </button>
