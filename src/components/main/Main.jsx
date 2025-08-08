@@ -10,6 +10,8 @@ function Main({ isOpen, onClose }) {
   const handleCategoryClick = (category) => {
     if (category.subcategories) {
       setCategoryStack((prev) => [...prev, category]);
+    } else {
+      onClose();
     }
   };
 
@@ -18,7 +20,7 @@ function Main({ isOpen, onClose }) {
   };
 
   const currentLevel = categoryStack.length;
-  const currentCategory = categoryStack[categoryStack.length - 1];
+  const currentCategory = categoryStack[currentLevel - 1];
   const getCategoriesAtLevel = (level) => {
     if (level === 0) return data.categories;
     return categoryStack[level - 1]?.subcategories || [];
@@ -41,13 +43,13 @@ function Main({ isOpen, onClose }) {
         `}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex h-[56px] items-center justify-between pl-5 pr-2 w-full border-b border-[rgb(238,238,237)]">
+        <div className="flex h-[56px] items-center justify-between pl-5  w-full border-b border-[rgb(238,238,237)]">
           {categoryStack.length > 0 ? (
             <button
               onClick={goBack}
               className="text-[16px] flex items-center text-black"
             >
-              <RiArrowLeftLine className="mr-4" />
+              <RiArrowLeftLine className="mr-4 text-[20px]" />
               <span>{currentCategory?.name}</span>
             </button>
           ) : (
@@ -73,19 +75,17 @@ function Main({ isOpen, onClose }) {
             {[...Array(currentLevel + 1)].map((_, level) => (
               <div
                 key={level}
-                className="w-full shrink-0"
+                className="w-full shrink-0 h-full overflow-y-auto"
               >
                 {getCategoriesAtLevel(level).map((category) => (
                   <div
                     key={category.slug}
                     onClick={() => handleCategoryClick(category)}
-                    className="h-[61px] px-5 flex items-center justify-between text-[14px] text-black border-b border-[rgb(238,238,237)] cursor-pointer"
+                    className="h-[61px] px-5 flex items-center justify-between text-[14px] text-black border-b border-[rgb(238,238,237)] cursor-pointer transition-colors"
                   >
                     <span>{category.name}</span>
                     {category.subcategories && (
-                      <span className="text-xl">
-                        <MdOutlineKeyboardArrowRight />
-                      </span>
+                      <MdOutlineKeyboardArrowRight className="text-xl" />
                     )}
                   </div>
                 ))}

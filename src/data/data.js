@@ -66,9 +66,30 @@ export const data = {
             }
           ]
         },
-        { "name": "Ayakkabı", "slug": "ayakkabi" },
-        { "name": "Aksesuar", "slug": "aksesuar" },
-        { "name": "Kampanyalar", "slug": "kampanyalar" },
+        {
+          "name": "Ayakkabı",
+          "slug": "ayakkabi",
+          "subcategories": [
+            { "name": "Klasik Ayakkabı", "slug": "klasik-ayakkabi" },
+            { "name": "Sneaker / Spor Ayakkabı", "slug": "sneaker-spor-ayakkabi" }
+          ]
+        },
+        {
+          "name": "Aksesuar",
+          "slug": "aksesuar",
+          "subcategories": [
+            { "name": "Parfüm", "slug": "parfum" },
+            { "name": "Kemer", "slug": "kemer" }
+          ]
+        },
+        {
+          "name": "Kampanyalar",
+          "slug": "kampanyalar",
+          "subcategories": [
+            { "name": "Şanslı Saatler", "slug": "sansli-saatler" },
+            { "name": "Altınyıldız Classics Stili", "slug": "altinyildiz-classics-stili" }
+          ]
+        },
         { "name": "Mega Outlet", "slug": "mega-outlet" },
         { "name": "Online Exclusive", "slug": "online-exclusive" }
       ]
