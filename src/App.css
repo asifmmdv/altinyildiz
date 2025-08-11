@@ -5,5 +5,14 @@ body{
 }
 
 @theme {
-  --breakpoint-xs: 360px;
+  --breakpoint-mobile: 340px;
+  --breakpoint-tablet: 640px;
+  --breakpoint-tablet-lg: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1280px;
+  --breakpoint-desktop-lg: 1400px;
+  --breakpoint-desktop-xl: 1500px;
 }
+
+
+

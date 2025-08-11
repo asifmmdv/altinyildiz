@@ -7,7 +7,7 @@ import { VscAccount } from "react-icons/vsc"
 function Header({ onHamburgerClick }) {
   return (
     <>  
-      <div className="flex h-[56px] items-center pl-2 justify-between xs:pr-[10px]">
+      <div className="flex h-[56px] items-center pl-2 justify-between mobile:pr-[10px]">
         <div 
           className="flex gap-1"
           onClick={onHamburgerClick}>
