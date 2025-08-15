@@ -2,8 +2,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation } from "swiper/modules"; // Removed Autoplay
 import { data } from "../../data/data"; // adjust path if needed
 
 const ProductSwiper = () => {
@@ -28,14 +27,9 @@ const ProductSwiper = () => {
 
   return (
     <Swiper
-      modules={[Navigation, Pagination, Autoplay]}
-      spaceBetween={50}
-      slidesPerView={1}
-      pagination={{ clickable: true }}
-      autoplay={{
-        delay: 4000,
-        disableOnInteraction: false,
-      }}
+      modules={[Navigation]} // Autoplay removed
+      spaceBetween={30}
+      slidesPerView={2.5}
       loop={true}
       breakpoints={{
         1280: {
@@ -43,16 +37,28 @@ const ProductSwiper = () => {
         },
       }}
     >
+      {/* First fixed slide */}
+      <SwiperSlide className="relative">
+        <img
+          src="/img/productswiper.jpg"
+          alt="Featured Product"
+          className="min-w-[122px] h-[224px]"
+        />
+      </SwiperSlide>
+
+      {/* Dynamic product slides */}
       {productsWithImages.map((product, index) => (
-        <SwiperSlide key={index} className="relative">
+        <SwiperSlide key={index} className="flex flex-col gap-1 w-[122px]">
           <img
             src={product.images[0]}
             alt={product.name}
-            className="w-full h-[500px] object-cover"
+            className="min-w-[122px] h-[183px] object-cover"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
-            <h3 className="text-lg font-semibold">{product.name}</h3>
-            <p className="text-sm">{product.price}</p>
+          <div className="text-black p-[10px] flex flex-col gap-1">
+            <p className="text-[12px] leading-[16px]">
+              {product.name.slice(0, 20)}
+            </p>
+            <p className="text-[12px]">{product.price}</p>
           </div>
         </SwiperSlide>
       ))}

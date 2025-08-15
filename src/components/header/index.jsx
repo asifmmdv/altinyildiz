@@ -18,7 +18,7 @@ function Header({ onHamburgerClick }) {
         </div> 
         <div className="flex items-center pl-2">
           <img 
-            className="h-[16px] w-[148px]" 
+            className="h-[16px] min-w-[148px]" 
             src="/img/logo.png" 
             alt="logo" />
         </div>
