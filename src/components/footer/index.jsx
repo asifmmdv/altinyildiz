@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { FaLiraSign, FaTruck, FaWallet } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLiraSign, FaTiktok, FaTruck, FaWallet, FaYoutube } from "react-icons/fa";
 import { GiSewingMachine } from "react-icons/gi";
 import { HiRefresh } from "react-icons/hi";
+import { RiTwitterXFill } from "react-icons/ri";
 
 const footerData = {
   "BİLGİ": [
@@ -78,7 +79,7 @@ function Footer() {
             <p className='text-[10px] text-center'>Kapıda Ödeme</p>
         </div>
     </div>
-      <div className="max-w-7xl mx-auto  py-6">
+      <div className="max-w-7xl mx-auto">
         <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-6">
           {Object.entries(footerData).map(([section, items]) => (
             <div key={section}>
@@ -153,6 +154,62 @@ function Footer() {
         })}
         </div>
       </div>
+      <div className="bg-[#EEEEEE] px-5 h-[57px] items-center flex gap-1">
+        <p className="text-[13px]">Güvenli Ödeme</p>
+        <div className="flex gap-3 justify-between h-[12px]">
+            <img src="https://images.altinyildizclassics.com/assets/mastercard.png" alt="mstrc"/>
+            <img src="https://images.altinyildizclassics.com/assets/visa.png" alt="visa"/>
+            <img src="https://images.altinyildizclassics.com/assets/troy.svg" alt="troy"/>
+            <img src="https://images.altinyildizclassics.com/assets/bkmexpress.png" alt="xpres"/>
+            <img src="https://images.altinyildizclassics.com/assets/pcilogo2.png" alt="pci"/>
+            <img src="/img/etbis.jpeg" alt="etbis" />
+        </div>
+      </div>
+      <div className="flex flex-col py-5 px-5 gap-5  border-b border-[rgb(238,238,237)]">
+        <div className="flex gap-2 justify-center">
+            <div className="rounded-full border-1 p-2">
+                <FaInstagram />
+            </div>
+            <div className="rounded-full border-1 p-2">
+                <FaFacebookF />
+            </div>
+            <div className="rounded-full border-1 p-2">
+                <RiTwitterXFill />
+            </div>
+            <div className="rounded-full border-1 p-2">
+                <FaYoutube />
+            </div>
+            <div className="rounded-full border-1 p-2">
+                <FaTiktok />
+            </div>
+        </div>
+        <div className="flex flex-row h-[30px] gap-1 justify-center">
+            <img className="w-[95px]" src="https://images.altinyildizclassics.com/assets/google-play.svg" alt="gply" />
+            <img className="w-[95px]" src="https://images.altinyildizclassics.com/assets/app-store.svg" alt="apst" />
+            <img className="w-[95px]" src="https://images.altinyildizclassics.com/assets/app-gallery.svg" alt="appg" />
+        </div>
+     </div>
+        <div className="flex flex-col justify-center items-center py-5 gap-3">
+        <span className="text-xs lg:text-base">
+        © {new Date().getFullYear()} Altınyıldız Classics, Tüm hakları saklıdır.
+        </span>
+            <ul className="flex items-center space-x-6">
+            <li>
+                <img
+                src="https://images.altinyildizclassics.com/assets/logo-brmagazacilik.png"
+                className="h-8"
+                alt=""
+                />
+            </li>
+            <li>
+                <img
+                src="https://images.altinyildizclassics.com/assets/boyner-group.svg"
+                className="h-6"
+                alt=""
+                />
+            </li>
+            </ul>
+        </div>
     </footer>
   );
 }
