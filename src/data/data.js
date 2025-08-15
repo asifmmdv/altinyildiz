@@ -1,5 +1,5 @@
 export const data = {
-  "categories": [
+  categories: [
     {
       "name": "KOLEKSIYON",
       "slug": "koleksiyon",
