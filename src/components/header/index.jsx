@@ -8,24 +8,27 @@ import { RiArrowLeftLine } from "react-icons/ri";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { HiMiniXMark } from "react-icons/hi2";
 import { data } from "../../data/data"; 
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [categoryStack, setCategoryStack] = useState([]);
-
+  const navigate = useNavigate();
   const onClose = () => {
     setShowSidebar(false);
     setCategoryStack([]);
   };
 
   const handleCategoryClick = (category) => {
-    if (category.subcategories && category.subcategories.length > 0) {
+    if (category.products && category.products.length > 0) {
+      navigate(`/products/${category.slug}`);
+      onClose();
+    } else if (category.subcategories && category.subcategories.length > 0) {
       setCategoryStack((prev) => [...prev, category]);
     } else {
       onClose();
     }
   };
-
   const goBack = () => {
     setCategoryStack((prev) => prev.slice(0, -1));
   };
@@ -87,7 +90,7 @@ function Header() {
                     <div
                       key={category.slug}
                       onClick={() => handleCategoryClick(category)}
-                      className="h-[61px] px-5 flex items-center justify-between text-[14px] text-black border-b border-[rgb(238,238,237)] cursor-pointer transition-colors"
+                      className="h-[61px] px-5 flex items-center justify-between text-[14px] text-black border-b border-[rgb(238,238,237)] cursor-pointer transition-colors "
                     >
                       <span>{category.name}</span>
                       {category.subcategories && category.subcategories.length > 0 && (
