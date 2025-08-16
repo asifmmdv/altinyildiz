@@ -3,6 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { data } from "../data/data";
 import ProductCard from "../components/main/ProductCard";
+import { Link } from "react-router-dom";
 
 function ProductPage() {
   const { slug } = useParams();
@@ -23,13 +24,11 @@ function ProductPage() {
 
   return (
     <div className="p-4 grid gap-4 grid-cols-2 md:grid-cols-4">
-      {products.length > 0 ? (
-        products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))
-      ) : (
-        <p>No products found.</p>
-      )}
+        {products.map((product) => (
+            <Link key={product.id} to={`/product/${product.id}`} className="block">
+            <ProductCard product={product} />
+            </Link>
+        ))}
     </div>
   );
 }
