@@ -526,7 +526,7 @@ export const data = {
                         "/img/armceket1.jpg",
                         "/img/armceket2.jpg",
                         "/img/armceket3.jpg",
-                        "/img/armceket4.jpg",
+                        "/img/armceket4.jpg"
                       ],
                       "details": [
                         "%76 POLIESTER",
@@ -544,15 +544,181 @@ export const data = {
                     }
                   ]
                 },
-                { "name": "Düz Ceket", "slug": "düz-ceket" }
+                {
+                  "name": "Düz Ceket",
+                  "slug": "düz-ceket",
+                  "products": [
+                    {
+                      "id": "4A0424100005SYH",
+                      "name": "Slim Fit Dar Kesim Kırlangıç Yaka Pamuklu Flamlı Siyah Ceket",
+                      "price": "3999,99 TL",
+                      "color": "Siyah",
+                      "sizes": ["46-6N","48-6N","50-6N","52-6N","54-6N","56-6N","58-6N"],
+                      "images": [
+                        "/img/flamliceket1.jpg",
+                        "/img/flamliceket2.jpg",
+                        "/img/flamliceket3.jpg",
+                        "/img/flamliceket4.jpg"
+                      ],
+                      "video": [
+                        "/video/flamliceket.mp4"
+                      ],
+                      "details": [
+                        "%61 POLIESTER",
+                        "%33 VİSKOZ",
+                        "%6 PAMUK",
+                        "Flamlı",
+                        "Slim Fit",
+                        "Kırlangıç Yaka",
+                        "Kelebek",
+                        "Çift Yırtmaç",
+                        "Torba Cep"
+                      ]
+                    },
+                    {
+                      "id": "4C0424100006KHV",
+                      "name": "Slim Fit Dar Kesim Mono Yaka Yünlü Kahverengi Ceket",
+                      "price": "4999,99 TL",
+                      "color": "Kahverengi",
+                      "sizes": ["46-6N","48-6N","50-6N","52-6N","54-6N","56-6N","58-6N"],
+                      "images": [
+                        "/img/yunluceket1.jpg",
+                        "/img/yunluceket2.jpg",
+                        "/img/yunluceket3.jpg",
+                        "/img/yunluceket4.jpg"
+                      ],
+                      "details": [
+                        "%55 YÜN",
+                        "%45 POLIESTER",
+                        "Düz",
+                        "Slim Fit",
+                        "MONO YAKA",
+                        "Uzun Kol",
+                        "Kelebek",
+                        "Çift Yırtmaç",
+                        "KAPAK CEP"
+                      ]
+                    }
+                  ]
+                }
               ]
             },            
             {
               "name": "Triko / Kazak",
               "slug": "triko-kazak",
               "subcategories": [
-                { "name": "Kazak", "slug": "kazak" },
-                { "name": "Bisiklet Yaka Kazak", "slug": "bisiklet-yaka-kazak" }
+                {
+                  "name": "Kazak",
+                  "slug": "kazak",
+                  "products": [
+                    {
+                      "id": "4A4923100508LAC",
+                      "name": "Standart Fit Normal Kesim Tam Balıkçı Yaka Yumuşak Dokulu Basic Lacivert Kazak",
+                      "price": "519,99 TL",
+                      "color": "Lacivert",
+                      "sizes": ["S", "M", "L", "XL", "XXL"],
+                      "images": [
+                        "/img/basickazak1.jpg",
+                        "/img/basickazak2.jpg",
+                        "/img/basickazak3.jpg",
+                        "/img/basickazak4.jpg"
+                      ],
+                      "video": [
+                        "/video/basickazak.mp4"
+                      ],
+                      "details": [
+                        "%100 POLIAMID",
+                        "Düz",
+                        "Standart Fit",
+                        "Tam Balıkçı Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepsiz"
+                      ]
+                    },
+                    {
+                      "id": "4A4923100207FGR",
+                      "name": "Standart Fit Bato Yaka Fermuarlı Etnik Desenli Füme-Gri Kazak",
+                      "price": "799,99 TL",
+                      "color": "Füme-Gri",
+                      "sizes": ["S", "M", "L", "XL", "XXL"],
+                      "images": [
+                        "/img/fumekazak1.jpg",
+                        "/img/fumekazak2.jpg",
+                        "/img/fumekazak3.jpg",
+                        "/img/fumekazak4.jpg"
+                      ],
+                      "details": [
+                        "%95 Akrilik",
+                        "%5 Poliamid",
+                        "Desenli",
+                        "Standart Fit",
+                        "Bato Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepsiz"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Bisiklet Yaka Kazak",
+                  "slug": "bisiklet-yaka-kazak",
+                  "products": [
+                    {
+                      "id": "ET4921100021AGL",
+                      "name": "Standart Fit Normal Kesim Pamuklu Bisiklet Yaka Muline Desenli Açık Gri-Lacivert Kazak",
+                      "price": "699,99 TL",
+                      "color": "Açık Gri-Lacivert",
+                      "sizes": ["S", "M", "L", "XL", "XXL"],
+                      "images": [
+                        "/img/grikazak1.jpg",
+                        "/img/grikazak2.jpg",
+                        "/img/grikazak3.jpg",
+                        "/img/grikazak4.jpg"
+                      ],
+                      "video": [
+                        "/video/grikazak.mp4"
+                      ],
+                      "details": [
+                        "%70 Pamuk",
+                        "%30 Polyester",
+                        "Muline",
+                        "Standart Fit",
+                        "Bisiklet Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepsiz"
+                      ]
+                    },
+                    {
+                      "id": "4A4921100065AHI",
+                      "name": "Anti-Pilling Özellikli Tüylenme Yapmayan Standart Fit Bisiklet Yaka Çizgi Dokulu Açık Haki Kazak",
+                      "price": "749,99 TL",
+                      "color": "Açık Haki",
+                      "sizes": ["S", "M", "L", "XL", "XXL"],
+                      "images": [
+                        "/img/hakikazak1.jpg",
+                        "/img/hakikazak2.jpg",
+                        "/img/hakikazak3.jpg",
+                        "/img/hakikazak4.jpg"
+                      ],
+                      "details": [
+                        "%100 Akrilik",
+                        "BEKLETMELI",
+                        "Standart Fit",
+                        "Bisiklet Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepsiz"
+                      ]
+                    }
+                  ]
+                }
               ]
             },
             {
@@ -560,8 +726,112 @@ export const data = {
               "slug": "sweatshirt",
               "image": "/img/sweatshirt.jpg",
               "subcategories": [
-                { "name": "Bisiklet Yaka Sweatshirt", "slug": "bisiklet-yaka-sweatshirt" },
-                { "name": "Ceket Sweatshirt", "slug": "ceket-sweatshirt" }
+                {
+                  "name": "Bisiklet Yaka Sweatshirt",
+                  "slug": "bisiklet-yaka-sweatshirt",
+                  "products": [
+                    {
+                      "id": "ET5200000001KGR",
+                      "name": "Standart Fit Normal Kesim Bisiklet Yaka Pamuklu Koyu Gri Sweatshirt",
+                      "price": "569,99 TL",
+                      "color": "Koyu Gri",
+                      "sizes": ["S", "M", "L", "XL", "XXL"],
+                      "images": [
+                        "/img/grisweatshirt1.jpg",
+                        "/img/grisweatshirt2.jpg",
+                        "/img/grisweatshirt3.jpg",
+                        "/img/grisweatshirt4.jpg"
+                      ],
+                      "details": [
+                        "%65 Polyester",
+                        "%35 Pamuk",
+                        "Düz",
+                        "Standart Fit",
+                        "Bisiklet Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepsiz"
+                      ]
+                    },
+                    {
+                      "id": "ET5200000001BYZ",
+                      "name": "Standart Fit Normal Kesim Bisiklet Yaka Pamuklu Beyaz Sweatshirt",
+                      "price": "569,99 TL",
+                      "color": "Beyaz",
+                      "sizes": ["S", "M", "L", "XL", "XXL"],
+                      "images": [
+                        "/img/beyazsweatshirt1.jpg",
+                        "/img/beyazsweatshirt2.jpg",
+                        "/img/beyazsweatshirt3.jpg",
+                        "/img/beyazsweatshirt4.jpg"
+                      ],
+                      "details": [
+                        "%65 Polyester",
+                        "%35 Pamuk",
+                        "Düz",
+                        "Standart Fit",
+                        "Bisiklet Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepsiz"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Ceket Sweatshirt",
+                  "slug": "ceket-sweatshirt",
+                  "products": [
+                    {
+                      "id": "ET5200000002ANT",
+                      "name": "Anti-Pilling Tüylenme Yapmayan Standart Fit Bato Yaka Sweatshirt Ceket Antrasit Polar",
+                      "price": "799,99 TL",
+                      "color": "Antrasit",
+                      "sizes": ["S", "M", "L", "XL", "XXL"],
+                      "images": [
+                        "/img/antrasitsweatshirt1.jpg",
+                        "/img/antrasitsweatshirt2.jpg",
+                        "/img/antrasitsweatshirt3.jpg",
+                        "/img/antrasitsweatshirt4.jpg"
+                      ],
+                      "details": [
+                        "%100 Polyester",
+                        "Düz",
+                        "Standart Fit",
+                        "Bato Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepli"
+                      ]
+                    },
+                    {
+                      "id": "4A5221100014GMJ",
+                      "name": "Anti-Pilling Tüylenme Yapmayan Standart Fit Bato Yaka Sweatshirt Ceket Gri Melanj Polar",
+                      "price": "799,99 TL",
+                      "color": "Gri Melanj",
+                      "sizes": ["S", "M", "L", "XL", "XXL", "3XL"],
+                      "images": [
+                        "/img/batosweatshirt1.jpg",
+                        "/img/batosweatshirt2.jpg",
+                        "/img/batosweatshirt3.jpg",
+                        "/img/batosweatshirt4.jpg"
+                      ],
+                      "details": [
+                        "%100 Polyester",
+                        "Düz",
+                        "Standart Fit",
+                        "Bato Yaka",
+                        "Uzun Kol",
+                        "Astarsız",
+                        "Yırtmaçsız",
+                        "Cepli"
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           ]
