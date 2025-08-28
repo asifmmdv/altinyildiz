@@ -44,6 +44,26 @@ export const data = {
                         "KAPAK CEP",
                         "Normal Bel",
                         "Dar Paça"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Onur T.",
+                          "comment": "Kalıbı tam oldu, bordo deseni canlı duruyor. Düğünde çok şık hissettirdi.",
+                          "rating": 5,
+                          "date": "2025-02-08"
+                        },
+                        {
+                          "user": "Hakan E.",
+                          "comment": "Kumaş kalitesi güzel, yalnız paça biraz dar geldi, tadilat yaptırdım.",
+                          "rating": 4,
+                          "date": "2025-02-12"
+                        },
+                        {
+                          "user": "Serkan K.",
+                          "comment": "Fiyat/performans başarılı. Astarda terletme yapmadı.",
+                          "rating": 5,
+                          "date": "2025-03-01"
+                        }
                       ]
                     },
                     {
@@ -63,9 +83,7 @@ export const data = {
                         "/img/cizgili9.jpg",
                         "/img/cizgili10.jpg"
                       ],
-                      "video": [
-                        "/video/cizgili.mp4"
-                      ],
+                      "video": ["/video/cizgili.mp4"],
                       "details": [
                         "%64 POLIESTER",
                         "%33 VİSKOZ",
@@ -79,6 +97,32 @@ export const data = {
                         "KAPAK CEP",
                         "Normal Bel",
                         "Dar Paça"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Cem A.",
+                          "comment": "Çizgili deseni modern duruyor, toplantıda çok beğenildi.",
+                          "rating": 5,
+                          "date": "2025-02-15"
+                        },
+                        {
+                          "user": "Barış U.",
+                          "comment": "Omuz yapısı sert ama formu iyi koruyor, paça dar olduğundan kısalttım.",
+                          "rating": 4,
+                          "date": "2025-02-22"
+                        },
+                        {
+                          "user": "Yiğit S.",
+                          "comment": "Kumaş tok ve şık, gün boyu kırışma yapmadı.",
+                          "rating": 5,
+                          "date": "2025-03-03"
+                        },
+                        {
+                          "user": "Emre K.",
+                          "comment": "Kalıp slim sevenlere uygun, bir beden büyük aldım tam oldu.",
+                          "rating": 4,
+                          "date": "2025-03-09"
+                        }
                       ]
                     }
                   ]
@@ -117,6 +161,50 @@ export const data = {
                         "KAPAK CEP",
                         "Normal Bel",
                         "Boru Paça"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Kemal R.",
+                          "comment": "Su geçirmez özelliği gerçekten işe yarıyor, yağmurda çok rahat ettim.",
+                          "rating": 5,
+                          "date": "2025-02-14"
+                        },
+                        {
+                          "user": "Tolga V.",
+                          "comment": "Kalıp rahat, geniş kesim tam istediğim gibi oldu.",
+                          "rating": 4,
+                          "date": "2025-02-18"
+                        },
+                        {
+                          "user": "Faruk G.",
+                          "comment": "Kumaş kalitesi yüksek, uzun süre giyince bile formunu koruyor.",
+                          "rating": 5,
+                          "date": "2025-02-22"
+                        },
+                        {
+                          "user": "Murat Y.",
+                          "comment": "Beden tablosuna uygun aldım, tam oldu. Kumaşı tok duruyor.",
+                          "rating": 4,
+                          "date": "2025-02-25"
+                        },
+                        {
+                          "user": "Emre K.",
+                          "comment": "İş toplantılarında çok şık bir görünüm sağladı.",
+                          "rating": 5,
+                          "date": "2025-02-28"
+                        },
+                        {
+                          "user": "Serkan U.",
+                          "comment": "Biraz ağır ama kesinlikle kaliteli, tavsiye ederim.",
+                          "rating": 4,
+                          "date": "2025-03-03"
+                        },
+                        {
+                          "user": "Ahmet T.",
+                          "comment": "Kesimi düzgün, paça boyunu kısalttım, harika oldu.",
+                          "rating": 5,
+                          "date": "2025-03-07"
+                        }
                       ]
                     },
                     {
@@ -147,6 +235,50 @@ export const data = {
                         "KAPAK CEP",
                         "Normal Bel",
                         "Normal Paça"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Mert N.",
+                          "comment": "Yelekli olması çok şık duruyor, özel davetlerde tercih ediyorum.",
+                          "rating": 5,
+                          "date": "2025-02-13"
+                        },
+                        {
+                          "user": "Selçuk D.",
+                          "comment": "Slim fit kalıbı tam oturdu, sadece kolları biraz kısalttım.",
+                          "rating": 4,
+                          "date": "2025-02-17"
+                        },
+                        {
+                          "user": "Alper S.",
+                          "comment": "Yünlü yapısı kışın sıcak tutuyor, kesinlikle kaliteli.",
+                          "rating": 5,
+                          "date": "2025-02-20"
+                        },
+                        {
+                          "user": "Burak Y.",
+                          "comment": "Siyah rengi çok şık, gömlekle kombinlemesi kolay oldu.",
+                          "rating": 5,
+                          "date": "2025-02-24"
+                        },
+                        {
+                          "user": "Cem K.",
+                          "comment": "Biraz dar kesim, ama çok modern bir görünüm sağlıyor.",
+                          "rating": 4,
+                          "date": "2025-02-28"
+                        },
+                        {
+                          "user": "Yiğit A.",
+                          "comment": "Dikişler temiz ve sağlam, uzun süre kullanılabilir.",
+                          "rating": 5,
+                          "date": "2025-03-04"
+                        },
+                        {
+                          "user": "Barış E.",
+                          "comment": "Yelek detayı sayesinde takım çok daha elit duruyor.",
+                          "rating": 5,
+                          "date": "2025-03-08"
+                        }
                       ]
                     }
                   ]
@@ -841,10 +973,117 @@ export const data = {
           "slug": "ayakkabi",
           "image": "/img/ayakabbi.jpg",
           "subcategories": [
-            { "name": "Klasik Ayakkabı", "slug": "klasik-ayakkabi" },
-            { "name": "Sneaker / Spor Ayakkabı", 
+            {
+              "name": "Klasik Ayakkabı",
+              "slug": "klasik-ayakkabi",
+              "products": [
+                {
+                  "id": "4A2200000012SYH",
+                  "name": "%100 Deri Rahat Taban Klasik Siyah Ayakkabı",
+                  "price": "2999,99 TL",
+                  "color": "Siyah",
+                  "sizes": ["40", "41", "42", "43", "44", "45"],
+                  "images": [
+                    "/img/siyahayakabi1.jpg",
+                    "/img/siyahayakabi2.jpg",
+                    "/img/siyahayakabi3.jpg",
+                    "/img/siyahayakabi4.jpg"
+                  ],
+                  "details": [
+                    "%100 DERI",
+                    "Standart Fit",
+                    "%80 Dana Derisidir",
+                    "%20 Keçi Derisidir"
+                  ]
+                },
+                {
+                  "id": "4C2225100008KHV",
+                  "name": "%100 Deri Bağcıklı Rahat Klasik Kahverengi Ayakkabı",
+                  "price": "3999,99 TL",
+                  "color": "Kahverengi",
+                  "sizes": ["40", "41", "42", "43", "44"],
+                  "images": [
+                    "/img/brown1.jpg",
+                    "/img/brown2.jpg",
+                    "/img/brown3.jpg",
+                    "/img/brown4.jpg"
+                  ],
+                  "details": [
+                    "%100 DERI",
+                    "Standart Fit",
+                    "%100 Dana Derisidir"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Sneaker / Spor Ayakkabı",
               "slug": "sneaker-spor-ayakkabi",
-              "image": "img/sneaker.jpg"
+              "image": "img/sneaker.jpg",
+              "products": [
+                {
+                  "id": "4A2223200045BEJ",
+                  "name": "Sneaker Bej Ayakkabı",
+                  "price": "999,99 TL",
+                  "color": "Bej",
+                  "sizes": ["40", "41", "42", "43", "44"],
+                  "images": [
+                    "/img/bejsneaker1.jpg",
+                    "/img/bejsneaker2.jpg",
+                    "/img/bejsneaker3.jpg",
+                    "/img/bejsneaker4.jpg"
+                  ],
+                  "details": [
+                    "%100 POLIURETAN",
+                    "Düz",
+                    "Standart Fit"
+                  ]
+                },
+                {
+                  "id": "4A2223200045LAC",
+                  "name": "Sneaker Lacivert Ayakkabı",
+                  "price": "999,99 TL",
+                  "color": "Lacivert",
+                  "sizes": ["40", "41", "42", "43"],
+                  "images": [
+                    "/img/lacivertsneaker1.jpg",
+                    "/img/lacivertsneaker2.jpg",
+                    "/img/lacivertsneaker3.jpg",
+                    "/img/lacivertsneaker4.jpg"
+                  ],
+                  "details": [
+                    "%100 POLIURETAN",
+                    "Düz",
+                    "Standart Fit"
+                  ],
+                  "reviews": [
+                    {
+                      "user": "Ahmet K.",
+                      "comment": "Ayakkabı çok rahat ve hafif, günlük kullanım için ideal.",
+                      "rating": 5,
+                      "date": "2025-02-01"
+                    },
+                    {
+                      "user": "Mehmet D.",
+                      "comment": "Görseldekiyle aynı geldi, ancak kalıbı biraz dar.",
+                      "rating": 4,
+                      "date": "2025-02-05"
+                    },
+                    {
+                      "user": "Selin A.",
+                      "comment": "Rengi çok şık, spor kombinlerle çok iyi uyum sağlıyor.",
+                      "rating": 5,
+                      "date": "2025-02-10"
+                    },
+                    {
+                      "user": "Burak Y.",
+                      "comment": "Fiyatına göre kaliteli ama daha yumuşak taban beklerdim.",
+                      "rating": 4,
+                      "date": "2025-02-12"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
