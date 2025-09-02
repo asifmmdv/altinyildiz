@@ -118,8 +118,8 @@ function Header() {
       {/* Drawer (Sidebar) */}
       <aside
         className={`
-          fixed inset-0 z-10 bg-black/40
-          transition-opacity duration-300 ease-in-out
+          fixed inset-0 z-999 bg-black/40
+          transition-opacity duration-300 ease-in-out 
           ${showSidebar ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
         `}
         onClick={onClose}
@@ -181,52 +181,87 @@ function Header() {
       </aside>
 
       {/* Top Bar */}
-      <div className="flex h-[56px] items-center pl-2 justify-between mobile:pr-[10px]">
-        <button
-          className="flex gap-1 items-center"
-          onClick={() => setShowSidebar(true)}
-        >
-          <GiHamburgerMenu />
-          <span className="text-[10px]">MENÜ</span>
-        </button>
-
-        <div className="flex items-center pl-2">
-          <img className="h-[16px] min-w-[148px]" src="/img/logo.png" alt="logo" />
-        </div>
-
-        <div className="flex">
-          {/* Search icon toggles inline search bar */}
-          <div
-            className="flex justify-center w-[28px] h-[40px] items-center cursor-pointer"
-            onClick={() => {
-              const next = !showSearchBar;
-              setShowSearchBar(next);
-              if (!next) {
-                setQuery("");
-                setResults([]);
-              }
-            }}
-            aria-label="Ara"
-            role="button"
+      <div className="flex tablet:justify-center sticky top-0 z-99 bg-white">
+        <div className="flex h-[56px] laptop:h-[100px] max-tablet-lg:w-[640px] max-laptop:w-[768px] max-desktop:w-[984px] max-desktop-lg:w-[1240px] max-desktop-xl:w-[1360px] desktop-xl:w-[1460px] items-center pl-2 justify-between w-full mobile:pr-[10px] transition-all duration-500 ease-in-out">
+          <button
+            className="flex gap-1 items-center cursor-pointer"
+            onClick={() => setShowSidebar(true)}
           >
-            <IoIosSearch className="h-[18px] w-[18px]" />
+            <GiHamburgerMenu />
+            <span className="text-[10px] desktop:text-[12px]">MENÜ</span>
+          </button>
+
+          <div className="flex items-center pl-2 mr-auto laptop:mx-auto">
+            <img className="h-[16px] min-w-[148px] laptop:h-[38px] laptop:w-[310px] cursor-pointer" 
+            src="/img/logo.png" 
+            alt="logo"
+            onClick={() => navigate("/")} />
           </div>
 
-          <div className="flex justify-center w-[28px] h-[40px] items-center">
-            <IoIosHeartEmpty className="h-[15px] w-[15px]" />
-          </div>
-          <div className="flex justify-center w-[28px] h-[40px] items-center">
-            <BsBoxSeam className="scale-x-[-1] h-[15px] w-[15px]" />
-          </div>
-          <div className="flex justify-center w-[28px] h-[40px] items-center">
-            <VscAccount className="h-[15px] w-[15px]" />
-          </div>
-          <div className="flex justify-center w-[28px] h-[40px] items-center relative">
-            <PiBagLight className="h-[15px] w-[15px]" />
-            <div className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] absolute left-4 top-3 text-[10px]">
-              <span>0</span>
+          <div className="flex">
+            {/* Search icon toggles inline search bar */}
+            <div
+              className="flex justify-center w-[28px] h-[40px] items-center cursor-pointer"
+              onClick={() => {
+                const next = !showSearchBar;
+                setShowSearchBar(next);
+                if (!next) {
+                  setQuery("");
+                  setResults([]);
+                }
+              }}
+              aria-label="Ara"
+              role="button"
+            >
+              <IoIosSearch className="h-[18px] w-[18px]" />
+            </div>
+
+            <div className="flex justify-center w-[28px] h-[40px] items-center">
+              <IoIosHeartEmpty className="h-[15px] w-[15px]" />
+            </div>
+            <div className="flex justify-center w-[28px] h-[40px] items-center">
+              <BsBoxSeam className="scale-x-[-1] h-[15px] w-[15px]" />
+            </div>
+            <div className="flex justify-center w-[28px] h-[40px] items-center">
+              <VscAccount className="h-[15px] w-[15px]" />
+            </div>
+            <div className="flex justify-center w-[28px] h-[40px] items-center relative">
+              <PiBagLight className="h-[15px] w-[15px]" />
+              <div className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] absolute left-4 top-3 text-[10px]">
+                <span>0</span>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Row Menu (only >= 1024px) */}
+      <div className="hidden lg:flex w-full justify-center items-center bg-white h-[72px] pt-2">
+        <div className="max-w-[1240px] mx-auto flex px-4 py-3 text-[12px] font-medium text-[rgb(91,91,91)]">
+          <button onClick={() => navigate("/products/takim-elbise")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
+            Takım Elbise
+          </button>
+          <button onClick={() => navigate("/products/gomlek")} className="hover:text-black border-r  px-4 border-[black] cursor-pointer">
+            Gömlek
+          </button>
+          <button onClick={() => navigate("/products/triko-tisort")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
+            Triko Tişört
+          </button>
+          <button onClick={() => navigate("/products/polo-yaka-tisort")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
+            Polo Yaka Tişört
+          </button>
+          <button onClick={() => navigate("/products/pantolon")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
+            Pantolon
+          </button>
+          <button onClick={() => navigate("/products/jean")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
+            Jean
+          </button>
+          <button onClick={() => navigate("/products/canta")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
+            Çanta
+          </button>
+          <button onClick={() => navigate("/products/sweatshirt")} className="hover:text-black px-4 cursor-pointer">
+            Sweatshirt
+          </button>
         </div>
       </div>
 
@@ -250,9 +285,7 @@ function Header() {
                     <button
                       key={item.id}
                       onClick={() => {
-                        // Navigate to your product page by ID (adjust route if needed)
                         navigate(`/product/${item.id}`);
-                        // Reset UI
                         setShowSearchBar(false);
                         setQuery("");
                         setResults([]);
@@ -270,9 +303,7 @@ function Header() {
                         <div className="text-[11px] text-gray-500 truncate">
                           {item._breadcrumbs}
                         </div>
-                        <div className="text-[14px] font-medium line-clamp-2">
-                          {item.name}
-                        </div>
+                        <div className="text-[14px] font-medium line-clamp-2">{item.name}</div>
                         <div className="text-[12px] text-gray-600 mt-1">
                           {(item.color || "").trim()} • {(item.price || "").trim()}
                         </div>
