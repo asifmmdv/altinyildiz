@@ -314,6 +314,20 @@ export const data = {
                         "KLASIK YAKA",
                         "Uzun Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Mert Y.",
+                          "comment": "Kumaşı kaliteli ve ütü istemiyor, çok pratik.",
+                          "rating": 5,
+                          "date": "2025-02-20"
+                        },
+                        {
+                          "user": "Ali K.",
+                          "comment": "Bir beden büyük almak daha iyi olabilir, kalıp dar.",
+                          "rating": 4,
+                          "date": "2025-02-22"
+                        }
                       ]
                     },
                     {
@@ -336,6 +350,20 @@ export const data = {
                         "KLASIK YAKA",
                         "Uzun Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Cem A.",
+                          "comment": "Rengi çok hoş, ofis için şık bir tercih.",
+                          "rating": 5,
+                          "date": "2025-02-18"
+                        },
+                        {
+                          "user": "Hakan D.",
+                          "comment": "Fiyatı biraz yüksek ama kalitesi çok iyi.",
+                          "rating": 4,
+                          "date": "2025-02-21"
+                        }
                       ]
                     }
                   ]
@@ -364,6 +392,20 @@ export const data = {
                         "KLASIK YAKA",
                         "Uzun Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Burak E.",
+                          "comment": "Gömlek tam beden oldu, kumaşı yumuşak.",
+                          "rating": 5,
+                          "date": "2025-02-19"
+                        },
+                        {
+                          "user": "Onur S.",
+                          "comment": "Model güzel ama kol boyu biraz uzun.",
+                          "rating": 4,
+                          "date": "2025-02-22"
+                        }
                       ]
                     },
                     {
@@ -386,10 +428,24 @@ export const data = {
                         "DUGMELI YAKA",
                         "Uzun Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Efe T.",
+                          "comment": "Keten olduğu için çok rahat, yaz için ideal.",
+                          "rating": 5,
+                          "date": "2025-02-20"
+                        },
+                        {
+                          "user": "Yasin K.",
+                          "comment": "Renk görseldekinden biraz daha koyu ama güzel.",
+                          "rating": 4,
+                          "date": "2025-02-23"
+                        }
                       ]
                     }
                   ]
-                }                
+                }
               ]
             },
             {
@@ -424,6 +480,20 @@ export const data = {
                         "Polo Yaka",
                         "Kısa Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Ayşe T.",
+                          "comment": "Pamuk kaliteli ve çok rahat, yazın giymek için ideal.",
+                          "rating": 5,
+                          "date": "2025-03-01"
+                        },
+                        {
+                          "user": "Emre K.",
+                          "comment": "Dar kesim olması hoşuma gitti, tam bedenimi aldım.",
+                          "rating": 4,
+                          "date": "2025-03-03"
+                        }
                       ]
                     },
                     {
@@ -435,8 +505,7 @@ export const data = {
                       "images": [
                         "/img/pololaciverttisort1.jpg",
                         "/img/pololaciverttisort2.jpg",
-                        "/img/pololaciverttisort3.jpg",
-                        "/img/pololaciverttisort4.jpg"
+                        "/img/pololaciverttisort3.jpg"
                       ],
                       "details": [
                         "%55 Pamuk",
@@ -446,6 +515,20 @@ export const data = {
                         "Polo Yaka",
                         "Kısa Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Deniz A.",
+                          "comment": "Kumaşı kaliteli ve terletmiyor, tam yazlık.",
+                          "rating": 5,
+                          "date": "2025-03-02"
+                        },
+                        {
+                          "user": "Can B.",
+                          "comment": "Rengi görseldekinden biraz koyu ama model güzel.",
+                          "rating": 4,
+                          "date": "2025-03-04"
+                        }
                       ]
                     }
                   ]
@@ -473,6 +556,20 @@ export const data = {
                         "Polo Yaka",
                         "Kısa Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Elif S.",
+                          "comment": "Jakarlı dokusu çok şık, çok memnun kaldım.",
+                          "rating": 5,
+                          "date": "2025-03-01"
+                        },
+                        {
+                          "user": "Murat T.",
+                          "comment": "Beden tam oldu, rahat bir ürün.",
+                          "rating": 4,
+                          "date": "2025-03-03"
+                        }
                       ]
                     },
                     {
@@ -494,6 +591,20 @@ export const data = {
                         "Bisiklet Yaka",
                         "Kısa Kol",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {
+                          "user": "Cem A.",
+                          "comment": "Çizgili tasarımı çok güzel, günlük kullanım için ideal.",
+                          "rating": 5,
+                          "date": "2025-03-02"
+                        },
+                        {
+                          "user": "Ayşe K.",
+                          "comment": "Renk canlı ve kaliteli, beğendim.",
+                          "rating": 4,
+                          "date": "2025-03-04"
+                        }
                       ]
                     }
                   ]
@@ -532,6 +643,13 @@ export const data = {
                         "Yan Cep",
                         "Lastikli",
                         "Normal Paça"
+                      ],
+                      "reviews": [
+                        {"user": "Ahmet T.", "comment": "Kumaşı çok kaliteli ve rahat.", "rating": 5, "date": "2025-02-20"},
+                        {"user": "Burak K.", "comment": "Slim fit tam oldu, bedeninizi doğru alın.", "rating": 4, "date": "2025-02-22"},
+                        {"user": "Deniz A.", "comment": "Rengi harika, ofis için ideal.", "rating": 5, "date": "2025-02-23"},
+                        {"user": "Elif S.", "comment": "Paça boyu biraz uzun ama genel olarak güzel.", "rating": 4, "date": "2025-02-24"},
+                        {"user": "Murat D.", "comment": "Lastikli bel çok rahat, hareket kabiliyeti yüksek.", "rating": 5, "date": "2025-02-25"}
                       ]
                     },
                     {
@@ -555,6 +673,14 @@ export const data = {
                         "Yan Cep",
                         "Normal Bel",
                         "Dar Paça"
+                      ],
+                      "reviews": [
+                        {"user": "Selim Y.", "comment": "Deseni çok şık, ofiste çok beğendim.", "rating": 5, "date": "2025-02-21"},
+                        {"user": "Emre K.", "comment": "Beden doğru geldi, rahat bir pantolon.", "rating": 4, "date": "2025-02-22"},
+                        {"user": "Ayşe T.", "comment": "Elastik bel çok konforlu.", "rating": 5, "date": "2025-02-23"},
+                        {"user": "Caner D.", "comment": "Paçalar biraz dar geldi, dikkat edin.", "rating": 4, "date": "2025-02-24"},
+                        {"user": "Gamze L.", "comment": "Rengi fotoğraftakinden biraz koyu ama kaliteli.", "rating": 4, "date": "2025-02-25"},
+                        {"user": "Murat A.", "comment": "Fiyatına göre gerçekten kaliteli bir ürün.", "rating": 5, "date": "2025-02-26"}
                       ]
                     }
                   ]
@@ -585,6 +711,13 @@ export const data = {
                         "5 CEP",
                         "Normal Bel",
                         "Dar Paça"
+                      ],
+                      "reviews": [
+                        {"user": "Hakan T.", "comment": "Rengi canlı ve şık, tam yazlık.", "rating": 5, "date": "2025-02-20"},
+                        {"user": "Ali K.", "comment": "Bedenim tam oldu, rahat bir jean.", "rating": 4, "date": "2025-02-21"},
+                        {"user": "Deniz A.", "comment": "Dar kesim seviyorum, çok beğendim.", "rating": 5, "date": "2025-02-22"},
+                        {"user": "Elif S.", "comment": "Kumaşı kaliteli ama biraz sert.", "rating": 4, "date": "2025-02-23"},
+                        {"user": "Murat D.", "comment": "Uzun süre giyilebilecek bir ürün.", "rating": 5, "date": "2025-02-24"}
                       ]
                     },
                     {
@@ -606,6 +739,13 @@ export const data = {
                         "Slim Fit",
                         "5 CEP",
                         "Normal Paça"
+                      ],
+                      "reviews": [
+                        {"user": "Cem A.", "comment": "Renk açık ve yazlık, çok rahat.", "rating": 5, "date": "2025-02-21"},
+                        {"user": "Ayşe K.", "comment": "Bedenime tam oldu, kaliteli bir jean.", "rating": 5, "date": "2025-02-22"},
+                        {"user": "Emre T.", "comment": "Elastan esnekliği güzel, hareket rahat.", "rating": 4, "date": "2025-02-23"},
+                        {"user": "Gamze L.", "comment": "Fiyatı yüksek ama kalite çok iyi.", "rating": 5, "date": "2025-02-24"},
+                        {"user": "Murat A.", "comment": "Dar kesim sevenler için ideal.", "rating": 5, "date": "2025-02-25"}
                       ]
                     }
                   ]
@@ -616,7 +756,7 @@ export const data = {
             {
               "name": "Ceket",
               "slug": "ceket",
-              "image": "img/ceket.jpg",
+              "image": "img/ceket",
               "subcategories": [
                 {
                   "name": "Desenli Ceket",
@@ -646,6 +786,13 @@ export const data = {
                         "Kelebek",
                         "Çift Yırtmaç",
                         "Torba Cep"
+                      ],
+                      "reviews": [
+                        {"user": "Ahmet K.", "comment": "Kumaş kalitesi mükemmel, tam slim fit.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Deniz A.", "comment": "Kareli tasarım çok şık ve modern.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Burak T.", "comment": "Bedenim tam oldu, rahat bir ürün.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Elif S.", "comment": "Uzun kol boyu tam, çok memnun kaldım.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Murat D.", "comment": "Torba cepler kullanışlı ve kaliteli.", "rating": 5, "date": "2025-03-05"}
                       ]
                     },
                     {
@@ -672,6 +819,13 @@ export const data = {
                         "Çift Yırtmaç",
                         "KAPAK CEP",
                         "Normal Bel"
+                      ],
+                      "reviews": [
+                        {"user": "Cem A.", "comment": "Armürlü dokusu çok şık ve kaliteli.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Ayşe T.", "comment": "Beden tam, rahat bir ceket.", "rating": 4, "date": "2025-03-02"},
+                        {"user": "Murat K.", "comment": "Kumaşı kaliteli, uzun süre giyilebilir.", "rating": 5, "date": "2025-03-03"},
+                        {"user": "Deniz S.", "comment": "Bej rengi görseldekine uygun.", "rating": 4, "date": "2025-03-04"},
+                        {"user": "Hakan T.", "comment": "Kelebek yaka çok hoş, klasik bir ürün.", "rating": 5, "date": "2025-03-05"}
                       ]
                     }
                   ]
@@ -705,6 +859,13 @@ export const data = {
                         "Kelebek",
                         "Çift Yırtmaç",
                         "Torba Cep"
+                      ],
+                      "reviews": [
+                        {"user": "Emre B.", "comment": "Kırlangıç yaka çok şık, tam slim fit.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Ayşe K.", "comment": "Flamlı doku çok kaliteli.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Cem T.", "comment": "Beden tam oldu, rahat bir ceket.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Deniz Y.", "comment": "Torba cepler kullanışlı, güzel bir ürün.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Murat K.", "comment": "Siyah rengi klasik ve şık.", "rating": 5, "date": "2025-03-05"}
                       ]
                     },
                     {
@@ -729,6 +890,13 @@ export const data = {
                         "Kelebek",
                         "Çift Yırtmaç",
                         "KAPAK CEP"
+                      ],
+                      "reviews": [
+                        {"user": "Ahmet T.", "comment": "Yünlü dokusu çok kaliteli.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Elif S.", "comment": "Bedenim tam oldu, rahat bir ceket.", "rating": 4, "date": "2025-03-02"},
+                        {"user": "Deniz A.", "comment": "Kumaşı yumuşak ve konforlu.", "rating": 5, "date": "2025-03-03"},
+                        {"user": "Murat D.", "comment": "Mono yaka çok şık, klasik bir görünüm.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Gamze L.", "comment": "Kahverengi rengi tam görseldekisi gibi.", "rating": 4, "date": "2025-03-05"}
                       ]
                     }
                   ]
@@ -755,9 +923,7 @@ export const data = {
                         "/img/basickazak3.jpg",
                         "/img/basickazak4.jpg"
                       ],
-                      "video": [
-                        "/video/basickazak.mp4"
-                      ],
+                      "video": ["/video/basickazak.mp4"],
                       "details": [
                         "%100 POLIAMID",
                         "Düz",
@@ -767,6 +933,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {"user": "Elif S.", "comment": "Yumuşak dokusu çok rahat, kış için ideal.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Murat T.", "comment": "Balıkçı yaka tam istediğim gibi.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Deniz A.", "comment": "Renk görseldekinden biraz koyu ama kaliteli.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Ayşe K.", "comment": "Standart fit rahat, bedenim tam oldu.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Cem B.", "comment": "Uzun süre kullanıma uygun bir kazak.", "rating": 5, "date": "2025-03-05"}
                       ]
                     },
                     {
@@ -791,6 +964,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {"user": "Ahmet K.", "comment": "Desenli tasarımı çok hoş ve modern.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Deniz Y.", "comment": "Bato yaka rahat ve kullanışlı.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Burak T.", "comment": "Kumaşı kaliteli, kış için ideal.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Elif A.", "comment": "Fermuarlı olması pratik, çok beğendim.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Murat D.", "comment": "Standart fit tam oldu, rahat bir kazak.", "rating": 5, "date": "2025-03-05"}
                       ]
                     }
                   ]
@@ -811,9 +991,7 @@ export const data = {
                         "/img/grikazak3.jpg",
                         "/img/grikazak4.jpg"
                       ],
-                      "video": [
-                        "/video/grikazak.mp4"
-                      ],
+                      "video": ["/video/grikazak.mp4"],
                       "details": [
                         "%70 Pamuk",
                         "%30 Polyester",
@@ -824,6 +1002,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {"user": "Ayşe T.", "comment": "Bisiklet yaka çok rahat ve şık.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Murat K.", "comment": "Muline dokusu kaliteli ve yumuşak.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Deniz A.", "comment": "Standart fit tam bedenime uydu.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Cem B.", "comment": "Renkler canlı ve görseldekine uygun.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Elif S.", "comment": "Uzun kol boyu ideal, astarsız olması güzel.", "rating": 5, "date": "2025-03-05"}
                       ]
                     },
                     {
@@ -847,6 +1032,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {"user": "Hakan T.", "comment": "Anti-pilling özelliği harika, tüylenme yapmıyor.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Deniz S.", "comment": "Çizgi dokusu çok şık ve modern.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Emre K.", "comment": "Standart fit rahat, tam bedenime uydu.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Ayşe K.", "comment": "Açık haki rengi tam görseldekisi gibi.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Murat D.", "comment": "Uzun kol boyu ideal, çok memnun kaldım.", "rating": 5, "date": "2025-03-05"}
                       ]
                     }
                   ]
@@ -884,6 +1076,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {"user": "Elif S.", "comment": "Koyu gri rengi tam görseldeki gibi, kaliteli kumaş.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Murat T.", "comment": "Bisiklet yaka çok rahat, günlük kullanım için ideal.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Deniz A.", "comment": "Standart fit bedenime tam oldu.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Ayşe K.", "comment": "Uzun kol boyu ideal, astarsız olması hoşuma gitti.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Cem B.", "comment": "Kumaşı yumuşak ve rahat, tavsiye ederim.", "rating": 5, "date": "2025-03-05"}
                       ]
                     },
                     {
@@ -908,6 +1107,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepsiz"
+                      ],
+                      "reviews": [
+                        {"user": "Hakan T.", "comment": "Beyaz rengi temiz ve şık, kaliteli ürün.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Deniz S.", "comment": "Kumaşı yumuşak ve rahat, günlük kullanım için ideal.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Emre K.", "comment": "Standart fit tam bedenime uygun.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Ayşe K.", "comment": "Bisiklet yaka tasarımı çok hoş.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Murat D.", "comment": "Uzun kol boyu ideal, astarsız ve cepsiz olması güzel.", "rating": 5, "date": "2025-03-05"}
                       ]
                     }
                   ]
@@ -937,6 +1143,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepli"
+                      ],
+                      "reviews": [
+                        {"user": "Elif S.", "comment": "Anti-pilling özelliği çok iyi, tüylenme yapmıyor.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Murat T.", "comment": "Bato yaka tasarımı rahat ve şık.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Deniz A.", "comment": "Standart fit tam bedenime uydu.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Ayşe K.", "comment": "Cepli olması kullanım açısından çok pratik.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Cem B.", "comment": "Kumaşı kaliteli ve sıcak tutuyor.", "rating": 5, "date": "2025-03-05"}
                       ]
                     },
                     {
@@ -960,6 +1173,13 @@ export const data = {
                         "Astarsız",
                         "Yırtmaçsız",
                         "Cepli"
+                      ],
+                      "reviews": [
+                        {"user": "Hakan T.", "comment": "Gri melanj rengi çok şık, kombinlemesi kolay.", "rating": 5, "date": "2025-03-01"},
+                        {"user": "Deniz S.", "comment": "Anti-pilling polar kalitesi mükemmel.", "rating": 5, "date": "2025-03-02"},
+                        {"user": "Emre K.", "comment": "Standart fit tam bedenime uygun.", "rating": 4, "date": "2025-03-03"},
+                        {"user": "Ayşe K.", "comment": "Bato yaka rahat ve kullanışlı.", "rating": 5, "date": "2025-03-04"},
+                        {"user": "Murat D.", "comment": "Cepli ve astarsız olması kullanım açısından güzel.", "rating": 5, "date": "2025-03-05"}
                       ]
                     }
                   ]
@@ -994,6 +1214,13 @@ export const data = {
                     "Standart Fit",
                     "%80 Dana Derisidir",
                     "%20 Keçi Derisidir"
+                  ],
+                  "reviews": [
+                    {"user": "Ahmet T.", "comment": "Siyah klasik ayakkabı çok şık ve rahat.", "rating": 5, "date": "2025-03-01"},
+                    {"user": "Murat K.", "comment": "Derisi kaliteli, tabanı rahat.", "rating": 5, "date": "2025-03-02"},
+                    {"user": "Deniz S.", "comment": "Standart fit tam oldu, günlük kullanım için uygun.", "rating": 4, "date": "2025-03-03"},
+                    {"user": "Ayşe B.", "comment": "Görseldekiyle aynı geldi, tavsiye ederim.", "rating": 5, "date": "2025-03-04"},
+                    {"user": "Cem A.", "comment": "Fiyatına değer, uzun süre kullanılır.", "rating": 5, "date": "2025-03-05"}
                   ]
                 },
                 {
@@ -1012,6 +1239,13 @@ export const data = {
                     "%100 DERI",
                     "Standart Fit",
                     "%100 Dana Derisidir"
+                  ],
+                  "reviews": [
+                    {"user": "Elif S.", "comment": "Kahverengi klasik ayakkabı çok kaliteli ve şık.", "rating": 5, "date": "2025-03-01"},
+                    {"user": "Deniz T.", "comment": "Bağcıklı tasarım çok rahat, ayağı sarıyor.", "rating": 5, "date": "2025-03-02"},
+                    {"user": "Emre K.", "comment": "Standart fit tam oldu, günlük kullanım için ideal.", "rating": 4, "date": "2025-03-03"},
+                    {"user": "Ayşe K.", "comment": "Derisi yumuşak ve uzun ömürlü.", "rating": 5, "date": "2025-03-04"},
+                    {"user": "Murat D.", "comment": "Fiyatına göre çok kaliteli, tavsiye ederim.", "rating": 5, "date": "2025-03-05"}
                   ]
                 }
               ]
@@ -1037,6 +1271,13 @@ export const data = {
                     "%100 POLIURETAN",
                     "Düz",
                     "Standart Fit"
+                  ],
+                  "reviews": [
+                    {"user": "Ahmet K.", "comment": "Bej rengi çok şık, spor kombinle çok uyumlu.", "rating": 5, "date": "2025-03-01"},
+                    {"user": "Mehmet D.", "comment": "Rahat ve hafif, uzun yürüyüşlerde bile konforlu.", "rating": 5, "date": "2025-03-02"},
+                    {"user": "Selin A.", "comment": "Tabanı biraz sert, ancak genel kalite çok iyi.", "rating": 4, "date": "2025-03-03"},
+                    {"user": "Burak Y.", "comment": "Fiyatına değer, günlük kullanım için ideal.", "rating": 5, "date": "2025-03-04"},
+                    {"user": "Deniz T.", "comment": "Standart fit tam oldu, ayağımı güzel sardı.", "rating": 4, "date": "2025-03-05"}
                   ]
                 },
                 {
@@ -1057,30 +1298,11 @@ export const data = {
                     "Standart Fit"
                   ],
                   "reviews": [
-                    {
-                      "user": "Ahmet K.",
-                      "comment": "Ayakkabı çok rahat ve hafif, günlük kullanım için ideal.",
-                      "rating": 5,
-                      "date": "2025-02-01"
-                    },
-                    {
-                      "user": "Mehmet D.",
-                      "comment": "Görseldekiyle aynı geldi, ancak kalıbı biraz dar.",
-                      "rating": 4,
-                      "date": "2025-02-05"
-                    },
-                    {
-                      "user": "Selin A.",
-                      "comment": "Rengi çok şık, spor kombinlerle çok iyi uyum sağlıyor.",
-                      "rating": 5,
-                      "date": "2025-02-10"
-                    },
-                    {
-                      "user": "Burak Y.",
-                      "comment": "Fiyatına göre kaliteli ama daha yumuşak taban beklerdim.",
-                      "rating": 4,
-                      "date": "2025-02-12"
-                    }
+                    {"user": "Ahmet K.", "comment": "Ayakkabı çok rahat ve hafif, günlük kullanım için ideal.", "rating": 5, "date": "2025-02-01"},
+                    {"user": "Mehmet D.", "comment": "Görseldekiyle aynı geldi, ancak kalıbı biraz dar.", "rating": 4, "date": "2025-02-05"},
+                    {"user": "Selin A.", "comment": "Rengi çok şık, spor kombinlerle çok iyi uyum sağlıyor.", "rating": 5, "date": "2025-02-10"},
+                    {"user": "Burak Y.", "comment": "Fiyatına göre kaliteli ama daha yumuşak taban beklerdim.", "rating": 4, "date": "2025-02-12"},
+                    {"user": "Cem B.", "comment": "Standart fit ve tabanı ideal, uzun süre kullanılır.", "rating": 5, "date": "2025-03-01"}
                   ]
                 }
               ]
@@ -1093,28 +1315,174 @@ export const data = {
           "subcategories": [
             { "name": "Parfüm", 
               "slug": "parfum",
-              "image": "img/parfum.jpg"
+              "image": "img/parfum.jpg",
+              "products": [
+                {
+                  "id": "4A9900000004LAC",
+                  "name": "AC Virtuel 100 ML EDP Lacivert Parfüm",
+                  "price": "599,99 TL",
+                  "color": "Lacivert",
+                  "sizes": ["STN"],
+                  "images": [
+                      "/img/ac-virtuel-lacivert1.jpg",
+                      "/img/ac-virtuel-lacivert2.jpg",
+                      "/img/ac-virtuel-lacivert3.jpg",
+                      "/img/ac-virtuel-lacivert4.jpg"
+                  ],
+                  "details": [
+                    "Üst Nota: Bergamot, Mandarine Verte, Greyfurt Notaları, Limon, Portakal Çiçeği",
+                    "Orta Nota: Lavanta, Karabiber, Elemi Resinoide, Estragol, Kekik, Menekşe Notları",
+                    "Alt Nota: Sıcak Sıvı Miskler, Sedir Ağacı, Guiac Ağacı, Kristal Kehribar, Vanilin, Tonka Fasulyesi"
+                  ],
+                  "reviews": [
+                    {
+                      "user": "Zeynep T.",
+                      "comment": "Harika bir parfüm, kalıcılığı çok iyi.",
+                      "rating": 5,
+                      "date": "2025-02-15"
+                    },
+                    {
+                      "user": "Emre B.",
+                      "comment": "Koku çok şık ama biraz yoğun, akşam kullanımı için daha uygun.",
+                      "rating": 4,
+                      "date": "2025-02-18"
+                    },
+                    {
+                      "user": "Ayşe K.",
+                      "comment": "Fiyatına göre çok kaliteli, şiddetle tavsiye ederim.",
+                      "rating": 5,
+                      "date": "2025-02-20"
+                    }
+                  ]
+                },
+                {
+                  "id": "4A9900000106SUY",
+                  "name": "AC İntense EDP 100 Ml Su Yeşili Parfüm",
+                  "price": "499,99 TL",
+                  "color": "Su Yeşili",
+                  "sizes": ["STN"],
+                  "images": [
+                    "/img/ac-intense-su-yesili1.jpg",
+                    "/img/ac-intense-su-yesili2.jpg",
+                    "/img/ac-intense-su-yesili3.jpg"
+                  ],
+                  "details": [
+                    "Üst Nota: Bergamot, Frenk Üzümü, Ananas, Elma",
+                    "Orta Nota: Huş Ağacı, Paçuli, Gül, Fas Yasemini",
+                    "Alt Nota: Misk, Meşe Yosunu, Vanilya, Ambergris"
+                  ],
+                  "reviews": [
+                    {
+                      "user": "Caner K.",
+                      "comment": "Kokusu çok ferah, yaz için mükemmel bir tercih.",
+                      "rating": 5,
+                      "date": "2025-02-22"
+                    },
+                    {
+                      "user": "Elif S.",
+                      "comment": "Kalıcılığı beklediğimden biraz daha az ama kokusu harika.",
+                      "rating": 4,
+                      "date": "2025-02-23"
+                    },
+                    {
+                      "user": "Murat A.",
+                      "comment": "Çok beğendim, günlük kullanım için ideal.",
+                      "rating": 5,
+                      "date": "2025-02-24"
+                    }
+                  ]
+                }
+              ]
              },
-            { "name": "Çanta", 
-              "slug": "Çanta",
-              "image": "img/canta.jpg", }
+             {
+              "name": "Çanta",
+              "slug": "canta",
+              "image": "img/canta.jpg",
+              "products": [
+                {
+                  "id": "4A3623200011GRI",
+                  "name": "Logolu Okul - Gri Sırt Çantası",
+                  "price": "499,99 TL",
+                  "color": "Gri",
+                  "sizes": ["STN"],
+                  "images": [
+                    "/img/logolu-gri-canta1.jpg",
+                    "/img/logolu-gri-canta2.jpg",
+                    "/img/logolu-gri-canta3.jpg",
+                    "/img/logolu-gri-canta4.jpg"
+                  ],
+                  "details": [
+                    "%100 POLIURETAN",
+                    "Düz",
+                    "Standart Fit",
+                    "Ürün Boyutları: Genişlik: 31 cm, Yükseklik: 40 cm, Derinlik: 12 cm"
+                  ],
+                  "reviews": [
+                    {
+                      "user": "Deniz A.",
+                      "comment": "Çok kullanışlı ve sağlam, okul için ideal.",
+                      "rating": 5,
+                      "date": "2025-02-25"
+                    },
+                    {
+                      "user": "Gamze Y.",
+                      "comment": "Görseldekiyle aynı geldi, rengi çok şık.",
+                      "rating": 5,
+                      "date": "2025-02-26"
+                    },
+                    {
+                      "user": "Serkan K.",
+                      "comment": "Fiyatına göre kaliteli, sadece biraz daha büyük olabilirdi.",
+                      "rating": 4,
+                      "date": "2025-02-27"
+                    }
+                  ]
+                },
+                {
+                  "id": "4A3623200012VZA",
+                  "name": "Logolu Okul - Vizon-Antrasit Sırt Çantası",
+                  "price": "499,99 TL",
+                  "color": "Vizon-Antrasit",
+                  "sizes": ["STN"],
+                  "images": [
+                    "/img/logolu-vizon-antrasit1.jpg",
+                    "/img/logolu-vizon-antrasit2.jpg",
+                    "/img/logolu-vizon-antrasit3.jpg",
+                    "/img/logolu-vizon-antrasit4.jpg"
+                  ],
+                  "details": [
+                    "%100 Polyester",
+                    "Düz",
+                    "Standart Fit",
+                    "Ürün Boyutları: Genişlik: 31 cm, Yükseklik: 40 cm, Derinlik: 12 cm"
+                  ],
+                  "reviews": [
+                    {
+                      "user": "Selin Ö.",
+                      "comment": "Rengi çok hoş, günlük kullanım için uygun.",
+                      "rating": 5,
+                      "date": "2025-02-25"
+                    },
+                    {
+                      "user": "Mert T.",
+                      "comment": "Çok hafif ve sağlam, tavsiye ederim.",
+                      "rating": 5,
+                      "date": "2025-02-26"
+                    },
+                    {
+                      "user": "Ayça L.",
+                      "comment": "Beklediğimden biraz küçük ama kaliteli.",
+                      "rating": 4,
+                      "date": "2025-02-27"
+                    }
+                  ]
+                }
+              ]
+            }
           ]
-        },
-        {
-          "name": "Kampanyalar",
-          "slug": "kampanyalar",
-          "subcategories": [
-            { "name": "Şanslı Saatler", "slug": "sansli-saatler" },
-            { "name": "Altınyıldız Classics Stili", "slug": "altinyildiz-classics-stili" }
-          ]
-        },
-        { "name": "Mega Outlet", "slug": "mega-outlet" },
-        { "name": "Online Exclusive", "slug": "online-exclusive" }
+        }
       ]
     },
-    { "name": "OUTLET", "slug": "outlet" },
-    { "name": "FIRSAT", "slug": "firsat" },
-    { "name": "AC X BURAK ÖZÇIVIT", "slug": "ac-x-burak-ozcivit" },
-    { "name": "YENI SEZON", "slug": "yeni-sezon" }
+    { "name": "AC X BURAK ÖZÇIVIT", "slug": "ac-x-burak-ozcivit" }
   ]
 };
