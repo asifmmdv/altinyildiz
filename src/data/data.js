@@ -75,13 +75,7 @@ export const data = {
                       "images": [
                         "/img/cizgili1.jpg",
                         "/img/cizgili3.jpg",
-                        "/img/cizgili4.jpg",
-                        "/img/cizgili5.jpg",
-                        "/img/cizgili6.jpg",
-                        "/img/cizgili7.jpg",
-                        "/img/cizgili8.jpg",
-                        "/img/cizgili9.jpg",
-                        "/img/cizgili10.jpg"
+                        "/img/cizgili4.jpg"
                       ],
                       "video": ["/video/cizgili.mp4"],
                       "details": [

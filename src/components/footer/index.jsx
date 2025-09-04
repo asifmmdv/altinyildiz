@@ -46,41 +46,41 @@ function Footer() {
   const toggle = (name) => setOpen((prev) => (prev === name ? null : name));
 
   return (
-    <footer>
-      <div className='flex'>
-        <div className='flex flex-col py-5 items-center justify-center gap-2'>
+    <footer className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px]">
+      <div className='flex w-full justify-center gap-1 tablet:gap-8 tablet-lg:gap-10 laptop:gap-14 border-t border-[rgb(238,238,237)] laptop:border-b'>
+        <div className='flex flex-col desktop:flex-row py-5 items-center justify-center gap-2'>
             <div className='bg-[#EEEEEE] rounded-full p-2'>
-                <HiRefresh/>
+                <HiRefresh className="tablet:w-[20px] tablet:h-[20px] desktop:hover:h-[24px] desktop:hover:w-[24px]"/>
             </div>
-            <p className='text-[10px] text-center'>Mağazalarımızdan Değişim</p>
+            <p className='text-[10px] text-center desktop:text-[16px]'>Mağazalarımızdan Değişim</p>
         </div>
-        <div className='flex flex-col py-5 items-center justify-center gap-2'>
+        <div className='flex flex-col py-5 items-center desktop:flex-row justify-center gap-2'>
             <div className='bg-[#EEEEEE] rounded-full p-2'>
-                <FaLiraSign/>
+                <FaLiraSign className="tablet:w-[20px] tablet:h-[20px]"/>
             </div>
-            <p className='text-[10px] text-center'>Havale İle Ödeme</p>
+            <p className='text-[10px] text-center desktop:text-[16px]'>Havale İle Ödeme</p>
         </div>
-        <div className='flex flex-col py-5 items-center justify-center gap-2'>
+        <div className='flex flex-col py-5 items-center desktop:flex-row justify-center gap-2'>
             <div className='bg-[#EEEEEE] rounded-full p-2'>
-                <GiSewingMachine />
+                <GiSewingMachine className="tablet:w-[20px] tablet:h-[20px]"/>
             </div>
-            <p className='text-[10px] text-center'>Ücretsiz Terzi Hizmeti</p>
+            <p className='text-[10px] text-center desktop:text-[16px]'>Ücretsiz Terzi Hizmeti</p>
         </div>
-        <div className='flex flex-col py-5 items-center justify-center gap-2'>
+        <div className='flex flex-col py-5 items-center desktop:flex-row justify-center gap-2'>
             <div className='bg-[#EEEEEE] rounded-full p-2'>
-                <FaTruck />
+                <FaTruck className="tablet:w-[20px] tablet:h-[20px] "/>
             </div>
-            <p className='text-[10px] text-center'>1500 TL Üstü Kargo Bedava</p>
+            <p className='text-[10px] text-center desktop:text-[16px]'>1500 TL Üstü Kargo Bedava</p>
         </div>
-        <div className='flex flex-col py-5 items-center justify-center gap-2'>
+        <div className='flex flex-col py-5 items-center desktop:flex-row justify-center gap-2'>
             <div className='bg-[#EEEEEE] rounded-full p-2'>
-                <FaWallet />
+                <FaWallet className="tablet:w-[20px] tablet:h-[20px]"/>
             </div>
-            <p className='text-[10px] text-center'>Kapıda Ödeme</p>
+            <p className='text-[10px] text-center desktop:text-[16px]'>Kapıda Ödeme</p>
         </div>
     </div>
-      <div className="max-w-7xl mx-auto">
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="w-full mx-auto tablet:mt-10 ">
+        <div className="hidden laptop:grid lg:grid-cols-5 gap-6">
           {Object.entries(footerData).map(([section, items]) => (
             <div key={section}>
               <h3 className="text-sm font-semibold mb-3">
@@ -100,7 +100,7 @@ function Footer() {
             </div>
           ))}
         </div>
-        <div className="md:hidden">
+        <div className="laptop:hidden">
         {Object.entries(footerData).map(([section, items]) => {
             const isOpen = open === section;
             return (
@@ -154,18 +154,18 @@ function Footer() {
         })}
         </div>
       </div>
-      <div className="bg-[#EEEEEE] px-5 h-[57px] items-center flex gap-1">
-        <p className="text-[13px]">Güvenli Ödeme</p>
-        <div className="flex gap-3 justify-between h-[12px]">
+      <div className="max-tablet:bg-[#EEEEEE] max-laptop:px-5 h-[57px] laptop:mt-10 w-full items-center flex justify-between laptop:border-t border-[rgb(238,238,237)]">
+        <p className="text-[13px] laptop:text-[16px]">Güvenli Ödeme</p>
+        <div className="flex gap-1 tablet:gap-2 justify-between h-[12px] tablet:h-[18px] laptop:h-[22px]">
             <img src="https://images.altinyildizclassics.com/assets/mastercard.png" alt="mstrc"/>
             <img src="https://images.altinyildizclassics.com/assets/visa.png" alt="visa"/>
             <img src="https://images.altinyildizclassics.com/assets/troy.svg" alt="troy"/>
             <img src="https://images.altinyildizclassics.com/assets/bkmexpress.png" alt="xpres"/>
             <img src="https://images.altinyildizclassics.com/assets/pcilogo2.png" alt="pci"/>
-            <img src="/img/etbis.jpeg" alt="etbis" />
+            <img  src="/img/etbis.jpeg" alt="etbis" />
         </div>
       </div>
-      <div className="flex flex-col py-5 px-5 gap-5  border-b border-[rgb(238,238,237)]">
+      <div className="flex flex-col laptop:flex-row laptop:justify-between py-5 max-laptop:px-5 gap-5  border-b border-t border-[rgb(238,238,237)]">
         <div className="flex gap-2 justify-center">
             <div className="rounded-full border-1 p-2">
                 <FaInstagram />
@@ -184,12 +184,12 @@ function Footer() {
             </div>
         </div>
         <div className="flex flex-row h-[30px] gap-1 justify-center">
-            <img className="w-[95px]" src="https://images.altinyildizclassics.com/assets/google-play.svg" alt="gply" />
-            <img className="w-[95px]" src="https://images.altinyildizclassics.com/assets/app-store.svg" alt="apst" />
-            <img className="w-[95px]" src="https://images.altinyildizclassics.com/assets/app-gallery.svg" alt="appg" />
+            <img className="w-[95px] laptop:w-[120px]" src="https://images.altinyildizclassics.com/assets/google-play.svg" alt="gply" />
+            <img className="w-[95px] laptop:w-[120px]" src="https://images.altinyildizclassics.com/assets/app-store.svg" alt="apst" />
+            <img className="w-[95px] laptop:w-[120px]" src="https://images.altinyildizclassics.com/assets/app-gallery.svg" alt="appg" />
         </div>
      </div>
-        <div className="flex flex-col justify-center items-center py-5 gap-3">
+        <div className="flex flex-col justify-center laptop:flex-row laptop:justify-between items-center py-5 gap-3">
         <span className="text-xs lg:text-base">
         © {new Date().getFullYear()} Altınyıldız Classics, Tüm hakları saklıdır.
         </span>

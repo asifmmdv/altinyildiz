@@ -223,7 +223,7 @@ function Header() {
             onClick={() => navigate("/")} />
           </div>
 
-          <div className="flex">
+          <div className="flex laptop:gap-1">
             {/* Search icon toggles inline search bar */}
             <div>
               <div
@@ -239,18 +239,18 @@ function Header() {
                 aria-label="Ara"
                 role="button"
               >
-                <IoIosSearch className="h-[18px] w-[18px]" />
+                <IoIosSearch className="h-[18px] w-[18px] laptop:h-[20px] laptop:w-[20px]" />
               </div>
             </div>
             <div className="flex justify-center w-[28px] h-[40px] items-center">
-              <IoIosHeartEmpty className="h-[15px] w-[15px]" />
+              <IoIosHeartEmpty className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
             </div>
             <div className="flex justify-center w-[28px] h-[40px] items-center">
-              <VscAccount className="h-[15px] w-[15px]" />
+              <VscAccount className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
             </div>
             <div className="flex justify-center w-[28px] h-[40px] items-center relative">
-              <PiBagLight className="h-[15px] w-[15px]" />
-              <div className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] absolute left-4 top-3 text-[10px]">
+              <PiBagLight className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
+              <div className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] laptop:h-[14px] laptop:w-[14px] absolute left-4 top-3 text-[10px]">
                 <span>0</span>
               </div>
             </div>

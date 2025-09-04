@@ -73,7 +73,7 @@ function Main() {
         <TopSwiper />
         <section className="p-4">
           <div className="flex justify-between items-center mb-2.5">
-            <h2 className="font-medium text-[18px]">FLAŞ ÜRÜNLER</h2>
+            <h2 className="font-medium text-[18px] ml-2">FLAŞ ÜRÜNLER</h2>
           </div>
 
           <ProductSwiper />
