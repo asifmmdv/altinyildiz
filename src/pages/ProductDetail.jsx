@@ -1,5 +1,5 @@
 // src/pages/ProductDetail.jsx
-import React, { useId, useMemo, useState } from "react";
+import React, { useId, useMemo, useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { data } from "../data/data";
 
@@ -182,10 +182,47 @@ export default function ProductDetail() {
     return filtered;
   }, [path, product.id]);
 
+  // --- Mobile bottom bar show/hide on scroll ---
+  const [showBottomBar, setShowBottomBar] = useState(false);
+  const lastScrollYRef = useRef(typeof window !== "undefined" ? window.scrollY : 0);
+  const tickingRef = useRef(false);
+
+  useEffect(() => {
+    const THRESHOLD = 160; // start logic after scrolling this many px
+    const DELTA = 3;       // ignore tiny jitter
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (tickingRef.current) return;
+
+      tickingRef.current = true;
+      window.requestAnimationFrame(() => {
+        const delta = y - lastScrollYRef.current;
+
+        if (y < THRESHOLD) {
+          // near top: keep hidden
+          setShowBottomBar(false);
+        } else if (delta > DELTA) {
+          // scrolling down → show
+          setShowBottomBar(true);
+        } else if (delta < -DELTA) {
+          // scrolling up → hide
+          setShowBottomBar(false);
+        }
+
+        lastScrollYRef.current = y;
+        tickingRef.current = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] pb-[88px] tablet-lg:pb-0">
       {/* breadcrumb */}
-      <nav className="text-xs text-gray-500 mb-4 flex px-2 flex-wrap gap-1">
+      <nav className="text-xs text-gray-500 mt-5 mb-3 flex px-2 flex-wrap gap-1">
         <Link to="/" className="hover:underline">Anasayfa</Link>
         {path.map((segment) => (
           <React.Fragment key={segment.slug}>
@@ -277,7 +314,7 @@ export default function ProductDetail() {
         </div>
 
         {/* info */}
-        <div className="flex flex-col gap-3 laptop:gap-4 max-laptop:p-5">
+        <div className="flex flex-col gap-3 laptop:gap-3 max-laptop:p-5">
           <div className="flex items-center gap-2 justify-between">
             <h1 className="text-[14px] tablet-lg:text-[18px] font-medium">{product.name}</h1>
 
@@ -377,11 +414,13 @@ export default function ProductDetail() {
                     </button>
                   </Link>
                 ))}
-          </div>
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* -------- Similar Products (mobile only) -------- */}
       {similar.length > 0 && (
         <div className="mt-12 px-5 tablet-lg:hidden">
           <h2 className="text-base font-medium mb-4">Beğenebileceğiniz Benzer Ürünler</h2>
@@ -407,7 +446,7 @@ export default function ProductDetail() {
                   )}
                 </div>
                 <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
-                      Ürünü incele
+                  Ürünü incele
                 </button>
               </Link>
             ))}
@@ -449,10 +488,14 @@ export default function ProductDetail() {
         )}
       </div>
 
-      {/* -------- Similar Products (mobile only) -------- */}
-      {/* Mobile bottom bar (≤768px) */}
+      {/* Mobile bottom bar (≤768px) with scroll-aware show/hide */}
       <div
-        className="tablet-lg:hidden fixed inset-x-0 bottom-0 border-t border-[rgb(238,238,237)] shadow-lg shadow-[rgb(0,0,0)] z-50 bor bg-white"
+        className={
+          `tablet-lg:hidden fixed inset-x-0 bottom-0 border-t border-[rgb(238,238,237)]
+           shadow-lg shadow-[rgb(0,0,0)] z-50 bg-white
+           transform transition-transform duration-300 will-change-transform
+           ${showBottomBar ? "translate-y-0" : "translate-y-full pointer-events-none"}`
+        }
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom))" }}
       >
         <div className="mx-auto max-w-[640px] px-3 py-3">
