@@ -162,7 +162,6 @@ function Footer() {
             <img src="https://images.altinyildizclassics.com/assets/troy.svg" alt="troy"/>
             <img src="https://images.altinyildizclassics.com/assets/bkmexpress.png" alt="xpres"/>
             <img src="https://images.altinyildizclassics.com/assets/pcilogo2.png" alt="pci"/>
-            <img  src="/img/etbis.jpeg" alt="etbis" />
         </div>
       </div>
       <div className="flex flex-col laptop:flex-row laptop:justify-between py-5 max-laptop:px-5 gap-5  border-b border-t border-[rgb(238,238,237)]">
