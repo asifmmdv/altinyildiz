@@ -44,6 +44,35 @@ function getStarTypes(avg) {
   return types;
 }
 
+/** ---- Helpers for "Similar Products" ---- **/
+
+// Walk the catalog by a slug path (the same shape as `path` from findProductById)
+function getNodeBySlugPath(rootCategories, slugPath = []) {
+  let nodes = rootCategories;
+  let current = null;
+  for (const seg of slugPath) {
+    if (!nodes) return null;
+    current = (nodes || []).find((c) => c.slug === seg);
+    if (!current) return null;
+    nodes = current.subcategories || null;
+  }
+  return current;
+}
+
+// Collect all products from a category node (recursively through subcategories)
+function collectProductsFromNode(node, out = []) {
+  if (!node) return out;
+  if (Array.isArray(node.products)) {
+    for (const p of node.products) out.push(p);
+  }
+  if (Array.isArray(node.subcategories)) {
+    for (const sub of node.subcategories) {
+      collectProductsFromNode(sub, out);
+    }
+  }
+  return out;
+}
+
 // -------------------- Star Icons (custom colors) --------------------
 const Star = ({ type = "empty", className = "w-4 h-4" }) => {
   const gradId = useId();
@@ -134,6 +163,25 @@ export default function ProductDetail() {
     });
   }, [reviews]);
 
+  /** ---- Compute Similar Products (same containing category) ---- **/
+  const similar = useMemo(() => {
+    if (!Array.isArray(path) || path.length === 0) return [];
+    // The last segment in `path` is the category that directly contains this product
+    const slugPath = path.map((seg) => seg.slug);
+    const containerNode = getNodeBySlugPath(data.categories, slugPath);
+    const all = collectProductsFromNode(containerNode);
+    // remove the current product and de-dup by id just in case
+    const filtered = [];
+    const seen = new Set([product.id]);
+    for (const p of all) {
+      if (p && p.id && !seen.has(p.id)) {
+        seen.add(p.id);
+        filtered.push(p);
+      }
+    }
+    return filtered;
+  }, [path, product.id]);
+
   return (
     <div className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] pb-[88px] tablet-lg:pb-0">
       {/* breadcrumb */}
@@ -151,7 +199,7 @@ export default function ProductDetail() {
         <span className="text-gray-700">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 tablet-lg:grid-cols-2 laptop:gap-5">
+      <div className="grid grid-cols-1 tablet-lg:grid-cols-2 laptop:gap-5 desktop:gap-10">
         {/* gallery */}
         <div>
           {/* ≤768px: swipeable gallery (video is 2nd slide) */}
@@ -201,7 +249,7 @@ export default function ProductDetail() {
                 media.map((m, idx) => (
                   <div
                     key={(m.type === "image" ? "tablet-lg-img-" : "tablet-vid-") + idx}
-                    className="tablet-lg:w-[150px] tablet-lg:h-[240px] laptop:w-[221px] laptop:h-[331px] desktop-lg:h-[517px] desktop-lg:w-[325px] overflow-hidden bg-white"
+                    className="tablet-lg:w-[180px] tablet-lg:h-[240px] laptop:w-[221px] laptop:h-[331px] desktop:h-[400px] desktop:w-[290px] desktop-lg:h-[497px] desktop-lg:w-[315px] overflow-hidden bg-white"
                   >
                     {m.type === "image" ? (
                       <img
@@ -229,9 +277,16 @@ export default function ProductDetail() {
         </div>
 
         {/* info */}
-        <div className="flex flex-col gap-2 max-laptop:p-5">
-          <h1 className="text-[14px] tablet-lg:text-[18px] font-medium">{product.name}</h1>
-          
+        <div className="flex flex-col gap-3 laptop:gap-4 max-laptop:p-5">
+          <div className="flex items-center gap-2 justify-between">
+            <h1 className="text-[14px] tablet-lg:text-[18px] font-medium">{product.name}</h1>
+
+            {/* show heart only until tablet-lg */}
+            <button className="tablet-lg:hidden bg-[rgb(238,238,237)] rounded-lg p-2">
+              <FaRegHeart />
+            </button>
+          </div>
+
           {/* ratings row */}
           <div className="flex items-center gap-2 text-gray-700">
             <div className="flex items-center gap-0.5">
@@ -253,7 +308,7 @@ export default function ProductDetail() {
 
           {/* price (desktop/tablet only) */}
           <div className="hidden tablet-lg:block">
-            <div className="text-[black] text-xl font-bold">{product.price}</div>
+            <div className="text-[black] text-xl font-medium">{product.price}</div>
           </div>
 
           {product.sizes?.length > 0 && (
@@ -291,8 +346,74 @@ export default function ProductDetail() {
           </div>
 
           <div className="text-xs text-gray-500 mt-2">Ürün Kodu: {product.id}</div>
+
+          {/* -------- Similar Products (inside info column on tablet+) -------- */}
+          {similar.length > 0 && (
+            <div className="hidden tablet-lg:block pt-4">
+              <h3 className="text-base font-medium mb-3">Beğenebileceğiniz Benzer Ürünler</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {similar.map((p) => (
+                  <Link
+                    key={p.id}
+                    to={`/product/${p.id}`}
+                    className="overflow-hidden w-[155px] bg-white"
+                  >
+                    <div>
+                      <img
+                        src={p.images?.[0]}
+                        alt={p.name}
+                        className="w-[155px] h-[225px] object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-2">
+                      <div className="text-[12px] ">{p.name}</div>
+                      {p.price && (
+                        <div className="text-[12px] font-medium mt-1 text-black">{p.price}</div>
+                      )}
+                    </div>
+                    <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
+                      Ürünü incele
+                    </button>
+                  </Link>
+                ))}
+          </div>
+            </div>
+          )}
         </div>
       </div>
+      {similar.length > 0 && (
+        <div className="mt-12 px-5 tablet-lg:hidden">
+          <h2 className="text-base font-medium mb-4">Beğenebileceğiniz Benzer Ürünler</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {similar.map((p) => (
+              <Link
+                key={p.id}
+                to={`/product/${p.id}`}
+                className="overflow-hidden w-[155px] bg-white"
+              >
+                <div>
+                  <img
+                    src={p.images?.[0]}
+                    alt={p.name}
+                    className="w-[155px] h-[225px] object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-2">
+                  <div className="text-[12px] ">{p.name}</div>
+                  {p.price && (
+                    <div className="text-[12px] font-medium mt-1 text-black">{p.price}</div>
+                  )}
+                </div>
+                <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
+                      Ürünü incele
+                </button>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Reviews section */}
       <div className="mt-10 px-2">
@@ -328,6 +449,7 @@ export default function ProductDetail() {
         )}
       </div>
 
+      {/* -------- Similar Products (mobile only) -------- */}
       {/* Mobile bottom bar (≤768px) */}
       <div
         className="tablet-lg:hidden fixed inset-x-0 bottom-0 border-t border-[rgb(238,238,237)] shadow-lg shadow-[rgb(0,0,0)] z-50 bor bg-white"
@@ -338,7 +460,7 @@ export default function ProductDetail() {
             <div className="flex flex-col">
               <span className="text-[12px] text-black leading-none">{product.price}</span>
             </div>
-            <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm  font-medium">
+            <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
               Sepete Ekle
             </button>
           </div>
