@@ -231,7 +231,7 @@ export default function ProductDetail() {
         {/* info */}
         <div className="flex flex-col gap-2 max-laptop:p-5">
           <h1 className="text-[14px] tablet-lg:text-[18px] font-medium">{product.name}</h1>
-
+          
           {/* ratings row */}
           <div className="flex items-center gap-2 text-gray-700">
             <div className="flex items-center gap-0.5">

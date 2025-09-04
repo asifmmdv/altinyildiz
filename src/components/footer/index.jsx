@@ -154,14 +154,14 @@ function Footer() {
         })}
         </div>
       </div>
-      <div className="max-tablet:bg-[#EEEEEE] max-laptop:px-5 h-[57px] laptop:mt-10 w-full flex justify-between items-center laptop:border-t border-[rgb(238,238,237)]">
-        <p className="text-[13px] laptop:text-[16px]">Güvenli Ödeme</p>
-        <div className="flex gap-[8px] tablet:gap-2 h-[12px] tablet:h-[18px] laptop:h-[22px]">
-          <img className="block" src="https://images.altinyildizclassics.com/assets/mastercard.png" alt="mstrc"/>
-          <img className="block" src="https://images.altinyildizclassics.com/assets/visa.png" alt="visa"/>
-          <img className="block" src="https://images.altinyildizclassics.com/assets/troy.svg" alt="troy"/>
-          <img className="block" src="https://images.altinyildizclassics.com/assets/bkmexpress.png" alt="xpres"/>
-          <img className="block" src="https://images.altinyildizclassics.com/assets/pcilogo2.png" alt="pci"/>
+      <div className="max-tablet:bg-[#EEEEEE] max-laptop:px-5 h-[57px] laptop:mt-10 w-full flex items-center laptop:border-t border-[rgb(238,238,237)]">
+        <p className="text-[13px] laptop:text-[16px] leading-none">Güvenli Ödeme</p>
+        <div className="ml-auto flex items-center gap-[8px] tablet:gap-2 h-[12px] tablet:h-[18px] laptop:h-[22px] flex-none">
+          <img className="block h-full w-auto" src="https://images.altinyildizclassics.com/assets/mastercard.png" alt="mstrc" />
+          <img className="block h-full w-auto" src="https://images.altinyildizclassics.com/assets/visa.png" alt="visa" />
+          <img className="block h-full w-auto" src="https://images.altinyildizclassics.com/assets/troy.svg" alt="troy" />
+          <img className="block h-full w-auto" src="https://images.altinyildizclassics.com/assets/bkmexpress.png" alt="xpres" />
+          <img className="block h-full w-auto" src="https://images.altinyildizclassics.com/assets/pcilogo2.png" alt="pci" />
         </div>
       </div>
       <div className="flex flex-col laptop:flex-row laptop:justify-between py-5 max-laptop:px-5 gap-5  border-b border-t border-[rgb(238,238,237)]">
