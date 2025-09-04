@@ -78,7 +78,7 @@ function Footer() {
             </div>
             <p className='text-[10px] text-center desktop:text-[16px]'>Kapıda Ödeme</p>
         </div>
-    </div>
+      </div>
       <div className="w-full mx-auto tablet:mt-10 ">
         <div className="hidden laptop:grid lg:grid-cols-5 gap-6">
           {Object.entries(footerData).map(([section, items]) => (

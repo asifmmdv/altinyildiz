@@ -222,7 +222,7 @@ export default function ProductDetail() {
   return (
     <div className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] pb-[88px] tablet-lg:pb-0">
       {/* breadcrumb */}
-      <nav className="text-xs text-gray-500 mt-5 mb-3 flex px-2 flex-wrap gap-1">
+      <nav className="text-xs text-gray-500 my-3 flex px-2 flex-wrap gap-1">
         <Link to="/" className="hover:underline">Anasayfa</Link>
         {path.map((segment) => (
           <React.Fragment key={segment.slug}>
