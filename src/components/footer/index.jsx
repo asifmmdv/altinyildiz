@@ -156,7 +156,7 @@ function Footer() {
       </div>
       <div className="max-tablet:bg-[#EEEEEE] max-laptop:px-5 h-[57px] laptop:mt-10 w-full items-center flex justify-between laptop:border-t border-[rgb(238,238,237)]">
         <p className="text-[13px] laptop:text-[16px]">Güvenli Ödeme</p>
-        <div className="flex gap-2 justify-between tablet:gap-2 h-[12px] tablet:h-[18px] laptop:h-[22px]">
+        <div className="flex gap-[6px] justify-between tablet:gap-2 h-[12px] tablet:h-[18px] laptop:h-[22px]">
             <img src="https://images.altinyildizclassics.com/assets/mastercard.png" alt="mstrc"/>
             <img src="https://images.altinyildizclassics.com/assets/visa.png" alt="visa"/>
             <img src="https://images.altinyildizclassics.com/assets/troy.svg" alt="troy"/>
