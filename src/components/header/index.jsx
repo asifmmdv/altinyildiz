@@ -9,6 +9,7 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { HiMiniXMark } from "react-icons/hi2";
 import { data } from "../../data/data";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -112,7 +113,31 @@ function Header() {
     }
     setResults(searchProducts(data, val));
   };
+  // inside your Header.jsx
+  const [showRowMenu, setShowRowMenu] = useState(true);
 
+  useEffect(() => {
+    let lastY = window.scrollY;
+
+    // no addEventListener, just assign directly
+    window.onscroll = () => {
+      const y = window.scrollY;
+
+      if (y <= 16) {
+        setShowRowMenu(true);        // at top → show
+      } else if (y > lastY) {
+        setShowRowMenu(false);       // scrolling down → hide
+      } else if (y < lastY) {
+        setShowRowMenu(true);        // scrolling up → show
+      }
+
+      lastY = y;
+    };
+
+  return () => {
+    window.onscroll = null; // cleanup
+  };
+}, []);
   return (
     <>
       {/* Drawer (Sidebar) */}
@@ -182,7 +207,7 @@ function Header() {
 
       {/* Top Bar */}
       <div className="flex tablet:justify-center sticky top-0 z-99 bg-white">
-        <div className="flex h-[56px] laptop:h-[100px] max-tablet-lg:w-[640px] max-laptop:w-[768px] max-desktop:w-[984px] max-desktop-lg:w-[1240px] max-desktop-xl:w-[1360px] desktop-xl:w-[1460px] items-center pl-2 justify-between w-full mobile:pr-[10px] transition-all duration-500 ease-in-out">
+        <div className="flex h-[56px] laptop:h-[100px] max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] max-desktop-lg:max-w-[1240px] max-desktop-xl:max-w-[1360px] desktop-xl:max-w-[1460px] items-center pl-2 justify-between w-full mobile:pr-[10px] transition-all duration-500 ease-in-out">
           <button
             className="flex gap-1 items-center cursor-pointer"
             onClick={() => setShowSidebar(true)}
@@ -191,7 +216,7 @@ function Header() {
             <span className="text-[10px] desktop:text-[12px]">MENÜ</span>
           </button>
 
-          <div className="flex items-center pl-2 mr-auto laptop:mx-auto">
+          <div className="flex items-center max-laptop:pl-2 max-laptop:mr-auto justify-center laptop:mx-auto">
             <img className="h-[16px] min-w-[148px] laptop:h-[38px] laptop:w-[310px] cursor-pointer" 
             src="/img/logo.png" 
             alt="logo"
@@ -200,27 +225,25 @@ function Header() {
 
           <div className="flex">
             {/* Search icon toggles inline search bar */}
-            <div
-              className="flex justify-center w-[28px] h-[40px] items-center cursor-pointer"
-              onClick={() => {
-                const next = !showSearchBar;
-                setShowSearchBar(next);
-                if (!next) {
-                  setQuery("");
-                  setResults([]);
-                }
-              }}
-              aria-label="Ara"
-              role="button"
-            >
-              <IoIosSearch className="h-[18px] w-[18px]" />
+            <div>
+              <div
+                className="flex justify-center w-[28px] h-[40px] items-center cursor-pointer"
+                onClick={() => {
+                  const next = !showSearchBar;
+                  setShowSearchBar(next);
+                  if (!next) {
+                    setQuery("");
+                    setResults([]);
+                  }
+                }}
+                aria-label="Ara"
+                role="button"
+              >
+                <IoIosSearch className="h-[18px] w-[18px]" />
+              </div>
             </div>
-
             <div className="flex justify-center w-[28px] h-[40px] items-center">
               <IoIosHeartEmpty className="h-[15px] w-[15px]" />
-            </div>
-            <div className="flex justify-center w-[28px] h-[40px] items-center">
-              <BsBoxSeam className="scale-x-[-1] h-[15px] w-[15px]" />
             </div>
             <div className="flex justify-center w-[28px] h-[40px] items-center">
               <VscAccount className="h-[15px] w-[15px]" />
@@ -236,12 +259,17 @@ function Header() {
       </div>
 
       {/* Row Menu (only >= 1024px) */}
-      <div className="hidden lg:flex w-full justify-center items-center bg-white h-[72px] pt-2">
+      <div
+        className={`
+          hidden lg:flex w-full justify-center items-center bg-white h-[72px] pt-2 sticky top-0 z-40
+          transition-all duration-500 ease-in-out
+          ${showRowMenu ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
+        `}>
         <div className="max-w-[1240px] mx-auto flex px-4 py-3 text-[12px] font-medium text-[rgb(91,91,91)]">
           <button onClick={() => navigate("/products/takim-elbise")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
             Takım Elbise
           </button>
-          <button onClick={() => navigate("/products/gomlek")} className="hover:text-black border-r  px-4 border-[black] cursor-pointer">
+          <button onClick={() => navigate("/products/gomlek")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
             Gömlek
           </button>
           <button onClick={() => navigate("/products/triko-tisort")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">

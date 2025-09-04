@@ -756,7 +756,7 @@ export const data = {
             {
               "name": "Ceket",
               "slug": "ceket",
-              "image": "img/ceket",
+              "image": "img/ceket.jpg",
               "subcategories": [
                 {
                   "name": "Desenli Ceket",
@@ -1397,7 +1397,7 @@ export const data = {
              {
               "name": "Çanta",
               "slug": "canta",
-              "image": "img/canta.jpg",
+              "image": "/img/canta.jpg",
               "products": [
                 {
                   "id": "4A3623200011GRI",
@@ -1482,7 +1482,6 @@ export const data = {
           ]
         }
       ]
-    },
-    { "name": "AC X BURAK ÖZÇIVIT", "slug": "ac-x-burak-ozcivit" }
+    }
   ]
 };

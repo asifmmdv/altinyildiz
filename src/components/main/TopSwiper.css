@@ -12,3 +12,61 @@
     background-color: rgb(255, 255, 255) !important;
     opacity: 1;
   }
+
+  .swiper {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    color: black !important;
+    font-size: 16px;  /* adjust arrow size */
+    font-weight: 800 !important;
+  }
+
+
+@media (min-width: 640px) {
+    .swiper { max-width: 640px; }
+}
+
+@media (min-width: 768px) {
+    .swiper { 
+        max-width: 768px; 
+        height: 340px; /* set height */
+    }
+}
+
+@media (min-width: 1024px) {
+    .swiper { 
+        max-width: 1024px; 
+        margin-top: 1.25rem;
+        height: 453px; /* set height */
+    }
+}
+
+@media (min-width: 1280px) {
+    .swiper { 
+        max-width: 1280px; 
+        height: 566px; /* set height */
+    }
+}
+
+@media (min-width: 1400px) {
+    .swiper {
+        max-width: 1400px;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+@media (min-width: 1500px) {
+    .swiper { max-width: 1500px; }
+}
+
+@media (min-width: 1400px) {
+    .swiper { max-width: 100%; }
+}
