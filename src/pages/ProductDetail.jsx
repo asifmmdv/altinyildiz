@@ -13,6 +13,9 @@ import "swiper/css/pagination";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useWishlist } from "../context/WishlistContext";
 
+// 🧺 Basket
+import { useBasket } from "../context/BasketContext";
+
 /* -------------------- Utilities -------------------- */
 function findProductById(categories, id, trail = []) {
   for (const category of categories) {
@@ -136,6 +139,11 @@ export default function ProductDetail() {
   const wished = isWished(product.id);
   const toggleWish = () => toggle(product.id);
 
+  // 🧺 basket state
+  const basket = useBasket();
+  const [selectedSize, setSelectedSize] = useState("");
+  const [sizeError, setSizeError] = useState(false);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const images = product.images || [];
   const hasVideo = Array.isArray(product.video) && product.video.length > 0;
@@ -206,8 +214,16 @@ export default function ProductDetail() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ---- IMPORTANT: ensure no ancestor blocks sticky ----
-  // We add overflow-visible to wrapper & grid, avoid transform on ancestors of sticky column.
+  const hasSizes = Array.isArray(product.sizes) && product.sizes.length > 0;
+
+  const handleAddToBasket = () => {
+    if (hasSizes && !selectedSize) {
+      setSizeError(true);
+      return;
+    }
+    setSizeError(false);
+    basket.add(product, { qty: 1, size: selectedSize || undefined });
+  };
 
   return (
     <div className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] pb-[88px] tablet-lg:pb-0 overflow-visible">
@@ -344,16 +360,40 @@ export default function ProductDetail() {
               <div className="text-[black] text-xl font-medium">{product.price}</div>
             </div>
 
-            {/* sizes */}
-            {product.sizes?.length > 0 && (
+            {/* sizes (required if exist) */}
+            {hasSizes && (
               <div>
-                <div className="text-sm font-medium mb-2">Beden</div>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="text-sm font-medium">
+                    Beden <span className="text-red-500">*</span>
+                  </div>
+                  {sizeError && (
+                    <span className="text-xs text-red-600">Lütfen bir beden seçiniz</span>
+                  )}
+                </div>
                 <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
-                    <button key={size} className="px-3 py-2 border rounded hover:bg-gray-50 text-sm">
-                      {size}
-                    </button>
-                  ))}
+                  {product.sizes.map((size) => {
+                    const active = selectedSize === size;
+                    return (
+                      <button
+                        key={size}
+                        onClick={() => {
+                          setSelectedSize(size);
+                          if (sizeError) setSizeError(false);
+                        }}
+                        className={
+                          `px-3 py-2 rounded text-sm transition
+                           ${active
+                             ? "border-2 border-black"
+                             : "border border-gray-300 hover:bg-gray-50"}`
+                        }
+                        aria-pressed={active}
+                        aria-label={`Beden ${size}${active ? " (seçili)" : ""}`}
+                      >
+                        {size}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -372,7 +412,12 @@ export default function ProductDetail() {
 
             {/* actions (tablet+ only) */}
             <div className="hidden tablet-lg:flex gap-3 pt-2">
-              <button className="flex-1 bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
+              <button
+                onClick={handleAddToBasket}
+                className={`flex-1 rounded-lg px-4 py-3 text-sm font-medium text-white
+                  ${hasSizes && !selectedSize ? "bg-gray-400" : "bg-black"}`}
+                title={hasSizes && !selectedSize ? "Önce beden seçiniz" : "Sepete Ekle"}
+              >
                 Sepete Ekle
               </button>
               <button
@@ -381,7 +426,7 @@ export default function ProductDetail() {
                 className={`border rounded-lg px-4 py-3 text-sm font-medium inline-flex items-center justify-center gap-2 ${
                   wished ? "border-red-500" : ""
                 }`}
-                title={wished ? "Favoridən çıxar" : "Favorilərə əlavə et"}
+                title={wished ? "Favoridən çıkart" : "Favorilere ekle"}
               >
                 {wished ? <FaHeart className="w-4 h-4 text-red-500" /> : <FaRegHeart className="w-4 h-4" />}
               </button>
@@ -509,7 +554,12 @@ export default function ProductDetail() {
             <div className="flex flex-col">
               <span className="text-[12px] text-black leading-none">{product.price}</span>
             </div>
-            <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
+            <button
+              onClick={handleAddToBasket}
+              className={`ml-auto h-[44px] w-[151px] rounded-lg px-4 py-3 text-sm font-medium text-white
+                ${hasSizes && !selectedSize ? "bg-gray-400" : "bg-black"}`}
+              title={hasSizes && !selectedSize ? "Önce beden seçiniz" : "Sepete Ekle"}
+            >
               Sepete Ekle
             </button>
           </div>

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useWishlist } from "../../context/WishlistContext";
+import { useBasket } from "../../context/BasketContext";
 
 const PAGE_SIZE = 4;
 
@@ -9,10 +10,14 @@ const ProductCard = ({ product, onAddToCart }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
   const [page, setPage] = useState(0);
+  const [sizeError, setSizeError] = useState(false);
 
   // ❤️ wishlist
   const { isWished, toggle } = useWishlist();
   const wished = isWished(product.id);
+
+  // 🧺 basket
+  const basket = useBasket();
 
   // sizes source (fallbacks)
   const rawSizes =
@@ -34,6 +39,8 @@ const ProductCard = ({ product, onAddToCart }) => {
       ),
     [rawSizes]
   );
+
+  const hasSizes = sizes.length > 0;
 
   // pagination
   const totalPages = Math.max(1, Math.ceil(sizes.length / PAGE_SIZE));
@@ -59,12 +66,26 @@ const ProductCard = ({ product, onAddToCart }) => {
     setPage((p) => Math.min(Math.max(p + dir, 0), totalPages - 1));
   };
 
+  const actuallyAddToBasket = (payload) => {
+    if (onAddToCart) onAddToCart(payload);
+    else basket.add(payload.product, { qty: 1, size: payload.size || undefined });
+  };
+
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const payload = { product, size: selectedSize };
-    if (onAddToCart) onAddToCart(payload);
-    else console.log("Add to cart:", payload);
+
+    // Require size if there are sizes
+    if (hasSizes && !selectedSize) {
+      setSizeError(true);
+      // auto-clear the error after a moment
+      setTimeout(() => setSizeError(false), 1200);
+      return;
+    }
+
+    actuallyAddToBasket({ product, size: selectedSize });
+    // optional: reset selection after add
+    // setSelectedSize(null);
   };
 
   return (
@@ -118,114 +139,135 @@ const ProductCard = ({ product, onAddToCart }) => {
           </div>
         )}
 
-        {/* ===== Hover Sizes Rail (4-per-view) ===== */}
-        {sizes.length > 0 && (
-          <div
-            className="
-              hidden laptop:block
-              absolute left-0 right-0 bottom-2 z-20
-              transition-transform duration-300 ease-out
-              translate-y-full group-hover:translate-y-0
-            "
-            onMouseMove={(e) => e.stopPropagation()}
-            onPointerMove={(e) => e.stopPropagation()}
-          >
-            <div className="relative bg-[rgba(238,238,238,0.83)] backdrop-blur-sm border-t border-gray-200">
-              <div className="relative px-10 pt-3 pb-2">
-                {/* 4-per-view grid */}
-                <div className="grid grid-cols-4 gap-2">
-                  {visible.map(({ label, disabled }, i) => (
-                    <button
-                      key={`${label}-${i}-${clampedPage}`}
-                      disabled={disabled}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        if (!disabled) setSelectedSize(label);
-                      }}
-                      className={`min-w-[44px] whitespace-nowrap h-9 px-2 text-[10px] cursor-pointer rounded
-                        ${
-                          disabled
-                            ? "border border-gray-200 text-gray-300 line-through"
-                            : selectedSize === label
-                            ? "bg-black text-white"
-                            : "text-gray-800 "
-                        }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-
-                {/* arrows (page by 4) */}
-                {totalPages > 1 && (
-                  <>
-                    <button
-                      aria-label="Previous sizes"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        nudge(-1);
-                      }}
-                      disabled={clampedPage === 0}
-                      className={`absolute left-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
-                        clampedPage === 0 ? "opacity-40" : ""
-                      }`}
-                    >
-                      <svg viewBox="0 0 24 24" className="w-4 h-4">
-                        <path
-                          d="M15 18l-6-6 6-6"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      aria-label="Next sizes"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        nudge(1);
-                      }}
-                      disabled={clampedPage === totalPages - 1}
-                      className={`absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
-                        clampedPage === totalPages - 1 ? "opacity-40" : ""
-                      }`}
-                    >
-                      <svg viewBox="0 0 24 24" className="w-4 h-4">
-                        <path
-                          d="M9 6l6 6-6 6"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        />
-                      </svg>
-                    </button>
-                  </>
-                )}
-
-                {/* === Add-to-cart bar (appears only when a size is selected) === */}
-                <div
-                  className={`
-                    overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-out
-                    ${selectedSize ? "max-h-16 opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-1"}
-                  `}
-                >
-                  <div className="pt-2">
-                    <button
-                      onClick={handleAddToCart}
-                      className="w-full h-10 rounded-md bg-black text-white text-xs cursor-pointer font-semibold tracking-wide">
-                      Sebete Ekle
-                    </button>
+        {/* ===== Hover Sizes / Add Bar ===== */}
+        <div
+          className="
+            hidden laptop:block
+            absolute left-0 right-0 bottom-2 z-20
+            transition-transform duration-300 ease-out
+            translate-y-full group-hover:translate-y-0
+          "
+          onMouseMove={(e) => e.stopPropagation()}
+          onPointerMove={(e) => e.stopPropagation()}
+        >
+          <div className="relative bg-[rgba(238,238,238,0.83)] backdrop-blur-sm border-t border-gray-200">
+            <div className="relative px-10 pt-3 pb-2">
+              {/* Sizes rail (only if product has sizes) */}
+              {hasSizes && (
+                <>
+                  {/* 4-per-view grid */}
+                  <div
+                    className={`grid grid-cols-4 gap-2 transition ${
+                      sizeError ? "animate-pulse" : ""
+                    }`}
+                  >
+                    {visible.map(({ label, disabled }, i) => (
+                      <button
+                        key={`${label}-${i}-${clampedPage}`}
+                        disabled={disabled}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (!disabled) setSelectedSize(label);
+                        }}
+                        className={`min-w-[44px] whitespace-nowrap h-9 px-2 text-[10px] cursor-pointer rounded
+                          ${
+                            disabled
+                              ? "border border-gray-200 text-gray-300 line-through"
+                              : selectedSize === label
+                              ? "bg-black text-white"
+                              : "text-gray-800 "
+                          }`}
+                        aria-pressed={selectedSize === label}
+                      >
+                        {label}
+                      </button>
+                    ))}
                   </div>
-                </div>
-                {/* === /Add-to-cart bar === */}
+
+                  {/* arrows (page by 4) */}
+                  {totalPages > 1 && (
+                    <>
+                      <button
+                        aria-label="Previous sizes"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          nudge(-1);
+                        }}
+                        disabled={clampedPage === 0}
+                        className={`absolute left-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
+                          clampedPage === 0 ? "opacity-40" : ""
+                        }`}
+                      >
+                        <svg viewBox="0 0 24 24" className="w-4 h-4">
+                          <path
+                            d="M15 18l-6-6 6-6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        aria-label="Next sizes"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          nudge(1);
+                        }}
+                        disabled={clampedPage === totalPages - 1}
+                        className={`absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
+                          clampedPage === totalPages - 1 ? "opacity-40" : ""
+                        }`}
+                      >
+                        <svg viewBox="0 0 24 24" className="w-4 h-4">
+                          <path
+                            d="M9 6l6 6-6 6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          />
+                        </svg>
+                      </button>
+                    </>
+                  )}
+
+                  {/* hint when trying to add without size */}
+                  {sizeError && (
+                    <div className="mt-2 text-[10px] text-red-600 text-center">
+                      Lütfen bir beden seçiniz
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* Add-to-cart bar
+                  - If sizes exist: show only when a size is selected
+                  - If no sizes: always show on hover
+              */}
+              <div
+                className={`
+                  overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-out mt-2
+                  ${
+                    (hasSizes && selectedSize) || !hasSizes
+                      ? "max-h-16 opacity-100 translate-y-0"
+                      : "max-h-0 opacity-0 -translate-y-1"
+                  }
+                `}
+              >
+                <button
+                  onClick={handleAddToCart}
+                  className="w-full h-10 rounded-md bg-black text-white text-xs cursor-pointer font-semibold tracking-wide"
+                  title={hasSizes && !selectedSize ? "Önce beden seçiniz" : "Sebete Ekle"}
+                >
+                  Sebete Ekle
+                </button>
               </div>
             </div>
           </div>
-        )}
-        {/* ===== /Hover Sizes Rail ===== */}
+        </div>
+        {/* ===== /Hover Sizes / Add Bar ===== */}
       </div>
 
       {/* Info */}
