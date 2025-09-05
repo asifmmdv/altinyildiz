@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useWishlist } from "../components/context/WishlistContext";
+import { useWishlist } from "../components/context/WishListContext";
 import { data } from "../data/data";
 import ProductCard from "../components/main/ProductCard"; // ⬅️ reuse your ProductCard
 
