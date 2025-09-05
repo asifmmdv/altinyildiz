@@ -1,73 +1,61 @@
 // src/pages/ProductPage.jsx
-import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import React, { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { data } from "../data/data";
 import ProductCard from "../components/main/ProductCard";
 import { ImEqualizer2 } from "react-icons/im";
+import { CiGrid2V } from "react-icons/ci";
+import { TfiLayoutGrid3, TfiLayoutGrid4 } from "react-icons/tfi";
 
-// ---------- Helpers ----------
-function findNodeBySlug(categories, slug) {
-  for (const cat of categories) {
-    if (cat.slug === slug) return cat;
-    if (cat.subcategories) {
-      const found = findNodeBySlug(cat.subcategories, slug);
-      if (found) return found;
+/* ---------- helpers ---------- */
+const findNodeBySlug = (cats, slug) => {
+  for (const c of cats) {
+    if (c.slug === slug) return c;
+    if (c.subcategories) {
+      const hit = findNodeBySlug(c.subcategories, slug);
+      if (hit) return hit;
     }
   }
   return null;
-}
-
-function findPathToSlug(categories, slug, trail = []) {
-  for (const cat of categories) {
-    const nextTrail = [...trail, { name: cat.name, slug: cat.slug }];
-    if (cat.slug === slug) return nextTrail;
-    if (Array.isArray(cat.subcategories)) {
-      const found = findPathToSlug(cat.subcategories, slug, nextTrail);
-      if (found) return found;
+};
+const findPathToSlug = (cats, slug, trail = []) => {
+  for (const c of cats) {
+    const next = [...trail, { name: c.name, slug: c.slug }];
+    if (c.slug === slug) return next;
+    if (c.subcategories) {
+      const hit = findPathToSlug(c.subcategories, slug, next);
+      if (hit) return hit;
     }
   }
   return null;
-}
-
-function collectAllProducts(node, out = []) {
+};
+const collectAllProducts = (node, out = []) => {
   if (!node) return out;
-  if (Array.isArray(node.products)) out.push(...node.products);
-  if (Array.isArray(node.subcategories)) {
-    for (const sub of node.subcategories) collectAllProducts(sub, out);
-  }
+  if (node.products) out.push(...node.products);
+  if (node.subcategories) node.subcategories.forEach((s) => collectAllProducts(s, out));
   return out;
-}
-
-// Parse "1.299,99 TL" -> 1299.99
-function parsePrice(priceStr) {
-  if (!priceStr || typeof priceStr !== "string") return Number.POSITIVE_INFINITY;
-  const cleaned = priceStr
+};
+const parsePrice = (s) => {
+  if (!s) return Number.POSITIVE_INFINITY;
+  const cleaned = s
     .replace(/\s/g, "")
     .replace(/[^\d.,]/g, "")
     .replace(/\./g, "")
     .replace(",", ".");
-  const num = Number(cleaned);
-  return Number.isFinite(num) ? num : Number.POSITIVE_INFINITY;
-}
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
+};
+const avgRating = (r = []) => (r.length ? r.reduce((a, x) => a + (+x.rating || 0), 0) / r.length : 0);
 
-function avgRating(reviews = []) {
-  if (!Array.isArray(reviews) || reviews.length === 0) return 0;
-  const sum = reviews.reduce((acc, r) => acc + (Number(r.rating) || 0), 0);
-  return sum / reviews.length;
-}
+/* ---------- tiny ui ---------- */
+const SortLabel = ({ text = "Sırala:" }) => (
+  <span className="inline-flex items-center gap-1">
+    <ImEqualizer2 className="rotate-90 text-gray-500" />
+    <span className="text-[16px]">{text}</span>
+  </span>
+);
 
-// ---------- Small reusable label ----------
-function SortLabel({ text = "Sırala:" }) {
-  return (
-    <div className="flex gap-1 items-center">
-      <ImEqualizer2 className="rotate-90 text-gray-500" />
-      <span className="text-[16px]">{text}</span>
-    </div>
-  );
-}
-
-// ---------- Desktop/Tablet-lg custom dropdown ----------
-const SORT_OPTIONS = [
+const SORTS = [
   { value: "editor", label: "Editör sıralaması" },
   { value: "price-asc", label: "Fiyata göre artan" },
   { value: "price-desc", label: "Fiyata göre azalan" },
@@ -76,83 +64,55 @@ const SORT_OPTIONS = [
 
 function SortDropdown({ value, onChange }) {
   const [open, setOpen] = useState(false);
-  const rootRef = useRef(null);
-
-  const current = SORT_OPTIONS.find((o) => o.value === value) ?? SORT_OPTIONS[0];
-
+  const ref = useRef(null);
+  const current = SORTS.find((o) => o.value === value) || SORTS[0];
   const close = useCallback(() => setOpen(false), []);
-  const toggle = useCallback(() => setOpen((v) => !v), []);
-
-  // Close on outside click
   useEffect(() => {
-    function onDocClick(e) {
-      if (!rootRef.current) return;
-      if (!rootRef.current.contains(e.target)) close();
+    const h = (e) => ref.current && !ref.current.contains(e.target) && close();
+    const k = (e) => e.key === "Escape" && close();
+    if (open) {
+      document.addEventListener("mousedown", h);
+      window.addEventListener("keydown", k);
     }
-    if (open) document.addEventListener("mousedown", onDocClick);
-    return () => document.removeEventListener("mousedown", onDocClick);
+    return () => {
+      document.removeEventListener("mousedown", h);
+      window.removeEventListener("keydown", k);
+    };
   }, [open, close]);
-
-  // Close on Escape
-  useEffect(() => {
-    function onKey(e) {
-      if (e.key === "Escape") close();
-    }
-    if (open) window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, close]);
-
-  const choose = (val) => {
-    onChange(val);
-    close();
-  };
-
   return (
-    <div className="relative" ref={rootRef}>
+    <div ref={ref} className="relative">
       <button
-        type="button"
-        onClick={toggle}
-        className="inline-flex items-center gap-2 rounded-md border px-3 py-1.5 bg-white text-xs tablet:text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black/10"
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-2 rounded-md border px-3 py-1.5 bg-white text-xs tablet:text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black/10 cursor-pointer"
         aria-haspopup="listbox"
         aria-expanded={open}
       >
         <SortLabel />
         <span className="text-gray-900">{current.label}</span>
-        {/* caret */}
-        <svg
-          viewBox="0 0 20 20"
-          aria-hidden="true"
-          className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
-        >
+        <svg viewBox="0 0 20 20" className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden>
           <path d="M5 7l5 6 5-6H5z" />
         </svg>
       </button>
 
       {open && (
-        <div
-          role="listbox"
-          tabIndex={-1}
-          className="absolute z-50 mt-2 w-64 rounded-xl border border-black/5 bg-white shadow-lg ring-1 ring-black/5 p-1"
-        >
-          {SORT_OPTIONS.map((opt) => {
-            const active = opt.value === value;
+        <div role="listbox" className="absolute z-50 mt-2 w-64 rounded-xl border border-black/5 bg-white shadow-lg ring-1 ring-black/5 p-1">
+          {SORTS.map((o) => {
+            const active = o.value === value;
             return (
               <button
-                key={opt.value}
+                key={o.value}
                 role="option"
                 aria-selected={active}
-                onClick={() => choose(opt.value)}
+                onClick={() => {
+                  onChange(o.value);
+                  close();
+                }}
                 className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-gray-50 ${
-                  active ? "font-medium" : "font-normal"
+                  active ? "font-medium" : ""
                 }`}
               >
-                <span>{opt.label}</span>
-                <span
-                  className={`h-4 w-4 rounded-full border ${
-                    active ? "bg-black border-black" : "border-gray-300"
-                  }`}
-                  aria-hidden
-                />
+                <span>{o.label}</span>
+                <span className={`h-4 w-4 rounded-full border ${active ? "bg-black border-black" : "border-gray-300"}`} />
               </button>
             );
           })}
@@ -162,209 +122,252 @@ function SortDropdown({ value, onChange }) {
   );
 }
 
-// ---------- Page ----------
+function ListSidebar({ categories, activePathSlugs, expandedSlugs }) {
+  const items = useMemo(() => {
+    const out = [];
+    (categories || []).forEach((n) => {
+      const isKoleksiyon = n.slug === "koleksiyon" || /^koleksi/i.test(n.name || "");
+      if (isKoleksiyon && n.subcategories) out.push(...n.subcategories);
+      else out.push(n);
+    });
+    return out;
+  }, [categories]);
+
+  return (
+    <aside className="hidden laptop:block">
+      <ul className="flex flex-col gap-1">
+        {items.map((n) => (
+          <SidebarNode key={n.slug} node={n} activePathSlugs={activePathSlugs} expandedSlugs={expandedSlugs} level={0} />
+        ))}
+      </ul>
+    </aside>
+  );
+}
+
+function SidebarNode({ node, activePathSlugs, expandedSlugs, level }) {
+  const isActive = activePathSlugs?.has(node.slug);
+  const isExpanded = expandedSlugs?.has(node.slug);
+  const hasChildren = Array.isArray(node.subcategories) && node.subcategories.length;
+  const rootText = level === 0 ? "text-[18px] font-bold" : "text-sm";
+
+  return (
+    <li>
+      <Link
+        to={`/products/${node.slug}`}
+        className={`relative inline-block ${rootText} ${level === 0 ? "px-3 py-2" : "px-3 py-1.5"} text-gray-700
+          after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-black after:w-0
+          after:transition-all after:duration-300 hover:after:w-full ${
+            isActive ? "font-semibold text-gray-900 after:w-full" : ""
+          }`}
+      >
+        {node.name}
+      </Link>
+
+      {hasChildren && (
+        <ul
+          className={`ml-3 pl-3 flex flex-col gap-1 transition-[max-height] duration-200 ease-out ${
+            isExpanded ? "max-h-[2000px]" : "max-h-0 overflow-hidden"
+          }`}
+        >
+          {node.subcategories.map((ch) => (
+            <SidebarNode
+              key={ch.slug}
+              node={ch}
+              activePathSlugs={activePathSlugs}
+              expandedSlugs={expandedSlugs}
+              level={level + 1}
+            />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+const SheetItem = ({ label, active, onClick }) => (
+  <li>
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center justify-between px-4 py-3 text-sm ${active ? "bg-gray-50 font-medium" : "bg-white"}`}
+    >
+      <span>{label}</span>
+      <span className={`inline-block h-4 w-4 rounded-full border ${active ? "bg-black border-black" : "border-gray-300"}`} />
+    </button>
+  </li>
+);
+
+/* ---------- page ---------- */
 export default function ProductPage() {
   const { slug } = useParams();
-
   const node = findNodeBySlug(data.categories, slug);
   const path = findPathToSlug(data.categories, slug) || [];
   const products = collectAllProducts(node, []);
+  const activePathSlugs = useMemo(() => new Set(path.map((p) => p.slug)), [path]);
 
-  // Sorting state
-  const [sortKey, setSortKey] = useState("editor"); // 'editor' | 'price-asc' | 'price-desc' | 'rating-desc'
+  const [sortKey, setSortKey] = useState("editor");
+
+  // 👇 Grid view: 2 / 3 / 4 columns
+  const [gridCols, setGridCols] = useState(3);
+  const gridClass = useMemo(() => {
+    switch (gridCols) {
+      case 2:
+        return "grid-cols-2";
+      case 3:
+        return "grid-cols-2 tablet:grid-cols-3";
+      case 4:
+      default:
+        return "grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4";
+    }
+  }, [gridCols]);
 
   const sortedProducts = useMemo(() => {
     const arr = [...products];
-    switch (sortKey) {
-      case "price-asc":
-        arr.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
-        break;
-      case "price-desc":
-        arr.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
-        break;
-      case "rating-desc":
-        arr.sort((a, b) => {
-          const ar = avgRating(a.reviews);
-          const br = avgRating(b.reviews);
-          if (br !== ar) return br - ar;
-          const ac = Array.isArray(a.reviews) ? a.reviews.length : 0;
-          const bc = Array.isArray(b.reviews) ? b.reviews.length : 0;
-          if (bc !== ac) return bc - ac;
-          return parsePrice(a.price) - parsePrice(b.price);
-        });
-        break;
-      case "editor":
-      default:
-        // Keep natural order from data.js
-        break;
-    }
+    if (sortKey === "price-asc") arr.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+    else if (sortKey === "price-desc") arr.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+    else if (sortKey === "rating-desc")
+      arr.sort((a, b) => {
+        const ar = avgRating(a.reviews),
+          br = avgRating(b.reviews);
+        if (br !== ar) return br - ar;
+        const ac = a.reviews?.length || 0,
+          bc = b.reviews?.length || 0;
+        if (bc !== ac) return bc - ac;
+        return parsePrice(a.price) - parsePrice(b.price);
+      });
     return arr;
   }, [products, sortKey]);
 
-  // ---------- Bottom Sheet (≤ tablet-lg) ----------
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  const closeSheet = useCallback(() => setIsSheetOpen(false), []);
-  const openSheet = useCallback(() => setIsSheetOpen(true), []);
-
-  // Close on ESC
+  // bottom sheet state
+  const [sheet, setSheet] = useState(false);
+  const closeSheet = useCallback(() => setSheet(false), []);
+  const openSheet = useCallback(() => setSheet(true), []);
   useEffect(() => {
-    function onKey(e) {
-      if (e.key === "Escape") closeSheet();
-    }
-    if (isSheetOpen) window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [isSheetOpen, closeSheet]);
-
-  // Prevent body scroll while sheet is open
+    const k = (e) => e.key === "Escape" && closeSheet();
+    if (sheet) window.addEventListener("keydown", k);
+    return () => window.removeEventListener("keydown", k);
+  }, [sheet, closeSheet]);
   useEffect(() => {
-    if (!isSheetOpen) return;
-    const original = document.body.style.overflow;
+    if (!sheet) return;
+    const o = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = original;
-    };
-  }, [isSheetOpen]);
-
-  // Apply sort + close for sheet
-  const chooseSort = (key) => {
-    setSortKey(key);
-    closeSheet();
-  };
+    return () => (document.body.style.overflow = o);
+  }, [sheet]);
 
   return (
     <div className="w-full max-tablet-lg:max-w-[640px] max-tablet:px-2 max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] tablet-lg:pb-0">
-      {/* Breadcrumbs */}
+      {/* breadcrumbs */}
       <nav className="text-xs text-gray-500 my-3 flex px-2 flex-wrap gap-1">
         <Link to="/" className="hover:underline">Anasayfa</Link>
-        {path.map((segment, idx) => (
-          <React.Fragment key={segment.slug}>
+        {path.map((seg, i) => (
+          <React.Fragment key={seg.slug}>
             <span>/</span>
-            {idx < path.length - 1 ? (
-              <Link to={`/products/${segment.slug}`} className="hover:underline">
-                {segment.name}
-              </Link>
+            {i < path.length - 1 ? (
+              <Link to={`/products/${seg.slug}`} className="hover:underline">{seg.name}</Link>
             ) : (
-              <span className="text-gray-700">{segment.name}</span>
+              <span className="text-gray-700">{seg.name}</span>
             )}
           </React.Fragment>
         ))}
       </nav>
 
-      {/* Sort toolbar */}
-      <div className="px-2 mb-3 flex items-center justify-between">
-        <p className="text-xs tablet:text-sm text-gray-600 hidden">
-          {products.length} ürün
-        </p>
-
-        {/* Desktop/large: label + custom dropdown */}
-        <div className="hidden tablet-lg:flex items-center gap-2">
-          <SortDropdown value={sortKey} onChange={setSortKey} />
-        </div>
-
-        {/* ≤ tablet-lg: trigger button styled like the label */}
+      {/* toolbar (mobile sheet trigger) */}
+      <div className="px-2 flex items-center justify-between">
         <button
-          type="button"
           onClick={openSheet}
           className="tablet-lg:hidden rounded-md px-3 py-1 bg-white flex items-center gap-2"
           aria-haspopup="dialog"
-          aria-expanded={isSheetOpen}
+          aria-expanded={sheet}
           aria-controls="sort-bottom-sheet"
         >
           <SortLabel />
         </button>
       </div>
 
-      {/* Grid */}
-      {sortedProducts.length === 0 ? (
-        <div className="text-sm text-gray-600 px-2">
-          Bu kategori için ürün bulunamadı.
-        </div>
-      ) : (
-        <div className="grid gap-4 grid-cols-2 laptop:grid-cols-4 px-2">
-          {sortedProducts.map((product) => (
-            <Link key={product.id} to={`/product/${product.id}`} className="block">
-              <ProductCard product={product} />
-            </Link>
-          ))}
-        </div>
-      )}
+      {/* layout */}
+      <div className="px-2 laptop:px-0">
+        <div className="laptop:flex laptop:gap-6">
+          {/* left sidebar */}
+          <div className="laptop:w-1/4 laptop:sticky laptop:top-24 laptop:self-start">
+            <ListSidebar
+              categories={data.categories}
+              activePathSlugs={activePathSlugs}
+              expandedSlugs={activePathSlugs}
+            />
+          </div>
 
-      {/* ----- Bottom Sheet + Backdrop (≤ tablet-lg) ----- */}
-      {/* Backdrop */}
+          {/* right content */}
+          <div className="laptop:w-3/4">
+            <div className="flex gap-4 items-center mb-4">
+              <div className="tablet-lg:flex hidden items-center gap-2">
+                <SortDropdown value={sortKey} onChange={setSortKey} />
+              </div>
+
+              {/* grid view toggles */}
+              <div className="laptop:flex hidden gap-2 items-center">
+                <span className="text-[16px]">Görünüm</span>
+                <CiGrid2V
+                  title="2 sütun"
+                  onClick={() => setGridCols(2)}
+                  className={`w-[24px] h-[24px] cursor-pointer ${gridCols === 2 ? "text-black" : "text-gray-400"}`}
+                />
+                <TfiLayoutGrid3
+                  title="3 sütun"
+                  onClick={() => setGridCols(3)}
+                  className={`w-[18px] h-[18px] cursor-pointer ${gridCols === 3 ? "text-black" : "text-gray-400"}`}
+                />
+                <TfiLayoutGrid4
+                  title="4 sütun"
+                  onClick={() => setGridCols(4)}
+                  className={`w-[20px] h-[20px] cursor-pointer ${gridCols === 4 ? "text-black" : "text-gray-400"}`}
+                />
+              </div>
+            </div>
+
+            {sortedProducts.length ? (
+              <div className={`grid gap-4 ${gridClass}`}>
+                {sortedProducts.map((p) => (
+                  <Link key={p.id} to={`/product/${p.id}`} className="block">
+                    <ProductCard product={p} />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-600">Bu kategori için ürün bulunamadı.</p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* sheet backdrop */}
       <div
         className={`tablet-lg:hidden fixed inset-0 bg-black/40 transition-opacity duration-200 z-[999] ${
-          isSheetOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          sheet ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={closeSheet}
       />
-
-      {/* Sheet */}
+      {/* bottom sheet */}
       <section
         id="sort-bottom-sheet"
         role="dialog"
         aria-modal="true"
         className={`tablet-lg:hidden fixed inset-x-0 bottom-0 z-[9999] bg-white rounded-t-2xl shadow-2xl transition-transform duration-300 ${
-          isSheetOpen ? "translate-y-0" : "translate-y-full"
+          sheet ? "translate-y-0" : "translate-y-full"
         }`}
         style={{ height: "33vh" }}
       >
-        {/* Drag handle */}
         <div className="flex justify-center py-2">
           <span className="h-1.5 w-12 rounded-full bg-gray-300" />
         </div>
-
         <div className="px-4 pb-4">
           <div className="text-center py-3">Sıralama</div>
-
-          {/* No borders between items */}
           <ul className="rounded-lg overflow-hidden">
-            <SheetItem
-              label="Editör sıralaması"
-              active={sortKey === "editor"}
-              onClick={() => chooseSort("editor")}
-            />
-            <SheetItem
-              label="Fiyata göre artan"
-              active={sortKey === "price-asc"}
-              onClick={() => chooseSort("price-asc")}
-            />
-            <SheetItem
-              label="Fiyata göre azalan"
-              active={sortKey === "price-desc"}
-              onClick={() => chooseSort("price-desc")}
-            />
-            <SheetItem
-              label="En değerlendirilen"
-              active={sortKey === "rating-desc"}
-              onClick={() => chooseSort("rating-desc")}
-            />
+            <SheetItem label="Editör sıralaması" active={sortKey === "editor"} onClick={() => setSortKey("editor")} />
+            <SheetItem label="Fiyata göre artan" active={sortKey === "price-asc"} onClick={() => setSortKey("price-asc")} />
+            <SheetItem label="Fiyata göre azalan" active={sortKey === "price-desc"} onClick={() => setSortKey("price-desc")} />
+            <SheetItem label="En değerlendirilen" active={sortKey === "rating-desc"} onClick={() => setSortKey("rating-desc")} />
           </ul>
         </div>
       </section>
     </div>
-  );
-}
-
-/** Row component used inside the bottom sheet */
-function SheetItem({ label, active, onClick }) {
-  return (
-    <li>
-      <button
-        onClick={onClick}
-        className={`w-full flex items-center justify-between px-4 py-3 text-sm ${
-          active ? "bg-gray-50 font-medium" : "bg-white"
-        }`}
-      >
-        <span>{label}</span>
-        {/* radio indicator */}
-        <span
-          className={`inline-block h-4 w-4 rounded-full border ${
-            active ? "bg-black border-black" : "border-gray-300"
-          }`}
-          aria-hidden
-        />
-      </button>
-    </li>
   );
 }
