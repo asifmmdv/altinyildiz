@@ -7,7 +7,7 @@ import ProductPage from './pages/ProductPage';
 import ProductDetail from './pages/ProductDetail';
 import ScrollToTop from './components/utilities/ScrollToTop';
 import { WishlistProvider } from './components/context/WishListContext';       // ⬅️ add
-import WishlistPage from './pages/WishListpage';
+import WishlistPage from './pages/Wishlistpage';
                // ⬅️ add
 
 function App() {

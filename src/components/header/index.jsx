@@ -11,7 +11,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { data } from "../../data/data";
 
 // ❤️ Wishlist
-import { useWishlist } from "../context/WishListContext";
+import { useWishlist } from "../context/WishlistContext";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 function Header() {
