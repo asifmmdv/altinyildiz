@@ -6,8 +6,8 @@ import Footer from './components/footer';
 import ProductPage from './pages/ProductPage';
 import ProductDetail from './pages/ProductDetail';
 import ScrollToTop from './components/utilities/ScrollToTop';
-import { WishlistProvider } from './components/context/WishListContext';       // ⬅️ add
 import WishlistPage from './pages/WishListpage';
+import { WishlistProvider } from "./context/WishlistContext";
                // ⬅️ add
 
 function App() {

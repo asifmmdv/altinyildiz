@@ -10,8 +10,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 // ❤️ Wishlist
-import { useWishlist } from "../components/context/WishListContext";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { useWishlist } from "../context/WishlistContext";
 
 /* -------------------- Utilities -------------------- */
 function findProductById(categories, id, trail = []) {

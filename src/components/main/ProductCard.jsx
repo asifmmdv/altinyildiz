@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { useWishlist } from "../context/WishListContext";
+import { useWishlist } from "../../context/WishlistContext";
 
 const ProductCard = ({ product }) => {
   const [hovered, setHovered] = useState(false);
