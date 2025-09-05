@@ -106,7 +106,7 @@ const ProductCard = ({ product, onAddToCart }) => {
             e.stopPropagation();
             toggle(product.id);
           }}
-          className="absolute top-2 right-2 z-20 bg-[rgb(238,238,237)] rounded-full p-2"
+          className="absolute top-2 right-2 z-20 bg-[rgb(238,238,237)] rounded-full p-2 cursor-pointer"
           aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
         >
           {wished ? (

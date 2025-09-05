@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosSearch } from "react-icons/io";
-import { PiBagLight } from "react-icons/pi";
 import { VscAccount } from "react-icons/vsc";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
@@ -16,6 +15,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 // 🧺 Basket
 import { useBasket } from "../../context/BasketContext";
+import { IoBagOutline } from "react-icons/io5";
 
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -232,7 +232,7 @@ function Header() {
             />
           </div>
 
-          <div className="flex laptop:gap-1">
+          <div className="flex items-center laptop:gap-1">
             {/* Search */}
             <div
               className="flex justify-center w-[28px] h-[40px] items-center cursor-pointer"
@@ -247,7 +247,7 @@ function Header() {
               aria-label="Ara"
               role="button"
             >
-              <IoIosSearch className="h-[18px] w-[18px] laptop:h-[20px] laptop:w-[20px]" />
+              <IoIosSearch className="h-[18px] w-[18px] laptop:h-[24px] laptop:w-[24px]" />
             </div>
 
             {/* ❤️ Wishlist */}
@@ -275,11 +275,11 @@ function Header() {
               className="flex justify-center w-[28px] h-[40px] items-center relative"
               aria-label="Sepet"
             >
-              <PiBagLight className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
+              <IoBagOutline  className="h-[18px] w-[18px] laptop:h-[24px] laptop:w-[24px]" />
               {basketCount > 0 && (
-                <span className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] laptop:h-[14px] laptop:w-[14px] absolute left-4 top-3 text-[10px]">
-                  {basketCount}
-                </span>
+               <span className="absolute -top-1 -right-1 bg-black text-white rounded-full text-[10px] h-4 w-4 flex items-center justify-center">
+               {basketCount}
+              </span>
               )}
             </Link>
           </div>

@@ -144,6 +144,9 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState("");
   const [sizeError, setSizeError] = useState(false);
 
+  // 🔗 ref to the size selector (for scrollIntoView)
+  const sizeRef = useRef(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const images = product.images || [];
   const hasVideo = Array.isArray(product.video) && product.video.length > 0;
@@ -216,9 +219,18 @@ export default function ProductDetail() {
 
   const hasSizes = Array.isArray(product.sizes) && product.sizes.length > 0;
 
+  // 👉 Add-to-basket with scroll-to-size when needed (no ring highlight)
   const handleAddToBasket = () => {
     if (hasSizes && !selectedSize) {
       setSizeError(true);
+
+      if (sizeRef.current) {
+        // Use scroll margin to avoid sticky header overlap
+        sizeRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Optional: focus first size button for quick selection & a11y
+        const firstBtn = sizeRef.current.querySelector("button");
+        firstBtn?.focus();
+      }
       return;
     }
     setSizeError(false);
@@ -362,13 +374,18 @@ export default function ProductDetail() {
 
             {/* sizes (required if exist) */}
             {hasSizes && (
-              <div>
+              <div
+                ref={sizeRef}
+                className="scroll-mt-[130px]" /* adjust to your sticky header height */
+              >
                 <div className="flex items-center gap-2 mb-2">
                   <div className="text-sm font-medium">
                     Beden <span className="text-red-500">*</span>
                   </div>
                   {sizeError && (
-                    <span className="text-xs text-red-600">Lütfen bir beden seçiniz</span>
+                    <span className="text-xs text-red-600" role="alert" aria-live="polite">
+                      Lütfen bir beden seçiniz
+                    </span>
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -381,12 +398,11 @@ export default function ProductDetail() {
                           setSelectedSize(size);
                           if (sizeError) setSizeError(false);
                         }}
-                        className={
-                          `px-3 py-2 rounded text-sm transition
-                           ${active
-                             ? "bg-[black] text-white"
-                             : "border border-black hover:bg-gray-50"}`
-                        }
+                        className={`px-3 py-2 rounded text-sm transition  cursor-pointer ${
+                          active
+                            ? "bg-[black] text-white"
+                            : "border border-black hover:bg-gray-50"
+                        }`}
                         aria-pressed={active}
                         aria-label={`Beden ${size}${active ? " (seçili)" : ""}`}
                       >
@@ -414,8 +430,9 @@ export default function ProductDetail() {
             <div className="hidden tablet-lg:flex gap-3 pt-2">
               <button
                 onClick={handleAddToBasket}
-                className={`flex-1 rounded-lg px-4 py-3 text-sm font-medium text-white
-                  ${hasSizes && !selectedSize ? "bg-gray-400" : "bg-black"}`}
+                className={`flex-1 rounded-lg px-4 py-3 text-sm font-medium cursor-pointer text-white ${
+                  hasSizes && !selectedSize ? "bg-gray-400" : "bg-black"
+                }`}
                 title={hasSizes && !selectedSize ? "Önce beden seçiniz" : "Sepete Ekle"}
               >
                 Sepete Ekle
@@ -423,7 +440,7 @@ export default function ProductDetail() {
               <button
                 onClick={toggleWish}
                 aria-label={wished ? "Favoridən çıxar" : "Favorilərə əlavə et"}
-                className={`border rounded-lg px-4 py-3 text-sm font-medium inline-flex items-center justify-center gap-2 ${
+                className={`border rounded-lg px-4 py-3 text-sm cursor-pointer font-medium inline-flex items-center justify-center gap-2 ${
                   wished ? "border-red-500" : ""
                 }`}
                 title={wished ? "Favoridən çıkart" : "Favorilere ekle"}
@@ -541,12 +558,10 @@ export default function ProductDetail() {
 
       {/* Mobile bottom bar (≤768px) */}
       <div
-        className={
-          `tablet-lg:hidden fixed inset-x-0 bottom-0 border-t border-[rgb(238,238,237)]
+        className={`tablet-lg:hidden fixed inset-x-0 bottom-0 border-t border-[rgb(238,238,237)]
            shadow-lg z-50 bg-white
            transition-transform duration-300
-           ${showBottomBar ? "translate-y-0" : "translate-y-full pointer-events-none"}`
-        }
+           ${showBottomBar ? "translate-y-0" : "translate-y-full pointer-events-none"}`}
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom))" }}
       >
         <div className="mx-auto max-w-[640px] px-3 py-3">
