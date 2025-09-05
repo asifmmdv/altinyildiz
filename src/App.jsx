@@ -6,7 +6,7 @@ import Footer from './components/footer';
 import ProductPage from './pages/ProductPage';
 import ProductDetail from './pages/ProductDetail';
 import ScrollToTop from './components/utilities/ScrollToTop';
-import WishlistPage from "./pages/WishlistPage";
+import WishlistPage from './pages/WishListpage';
 import { WishlistProvider } from "./context/WishlistContext";
                // ⬅️ add
 
