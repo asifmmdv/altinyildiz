@@ -14,6 +14,9 @@ import { data } from "../../data/data";
 import { useWishlist } from "../../context/WishlistContext";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
+// 🧺 Basket
+import { useBasket } from "../../context/BasketContext";
+
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [categoryStack, setCategoryStack] = useState([]);
@@ -26,6 +29,9 @@ function Header() {
 
   // ❤️ get wishlist count
   const { count } = useWishlist();
+
+  // 🧺 get basket count
+  const { count: basketCount } = useBasket();
 
   const onClose = () => {
     setShowSidebar(false);
@@ -208,7 +214,7 @@ function Header() {
 
       {/* Top Bar */}
       <div className="flex tablet:justify-center sticky top-0 z-99 bg-white">
-        <div className="flex h-[56px] laptop:h-[100px] max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] max-desktop-lg:max-w-[1240px] max-desktop-xl:max-w-[1360px] desktop-xl:max-w-[1460px] items-center pl-2 justify-between w-full mobile:pr-[10px] transition-all duration-500 ease-in-out">
+        <div className="flex h-[56px] laptop:h-[100px] max-tablet-lg:max-w=[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] max-desktop-lg:max-w-[1240px] max-desktop-xl:max-w-[1360px] desktop-xl:max-w-[1460px] items-center pl-2 justify-between w-full mobile:pr-[10px] transition-all duration-500 ease-in-out">
           <button
             className="flex gap-1 items-center cursor-pointer"
             onClick={() => setShowSidebar(true)}
@@ -219,10 +225,10 @@ function Header() {
 
           <div className="flex items-center max-laptop:pl-2 max-laptop:mr-auto justify-center laptop:mx-auto">
             <img
-              className="h-[16px] min-w-[148px] laptop:h-[38px] laptop:w-[310px] cursor-pointer" 
-              src="/img/logo.png" 
+              className="h-[16px] min-w-[148px] laptop:h-[38px] laptop:w-[310px] cursor-pointer"
+              src="/img/logo.png"
               alt="logo"
-              onClick={() => navigate("/")} 
+              onClick={() => navigate("/")}
             />
           </div>
 
@@ -263,13 +269,19 @@ function Header() {
               <VscAccount className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
             </div>
 
-            {/* Bag */}
-            <div className="flex justify-center w-[28px] h-[40px] items-center relative">
+            {/* 🧺 Basket (opens /basket, shows live count) */}
+            <Link
+              to="/basket"
+              className="flex justify-center w-[28px] h-[40px] items-center relative"
+              aria-label="Sepet"
+            >
               <PiBagLight className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
-              <div className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] laptop:h-[14px] laptop:w-[14px] absolute left-4 top-3 text-[10px]">
-                <span>0</span>
-              </div>
-            </div>
+              {basketCount > 0 && (
+                <span className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] laptop:h-[14px] laptop:w-[14px] absolute left-4 top-3 text-[10px]">
+                  {basketCount}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
       </div>

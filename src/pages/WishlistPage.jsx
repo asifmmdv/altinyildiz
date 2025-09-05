@@ -27,7 +27,7 @@ export default function WishlistPage() {
         {items.length > 0 && (
           <button
             onClick={clear}
-            className="text-sm underline hover:text-red-500 transition cursor-pointer"
+            className="tablet:text-[16px] text-[14px]  hover:text-red-500 transition cursor-pointer"
           >
             Hepsini sil
           </button>
@@ -36,8 +36,8 @@ export default function WishlistPage() {
 
       {items.length === 0 ? (
         <div className="py-16 text-center">
-          <p className="text-gray-600 mb-4">Favorileriniz yok</p>
-          <Link to="/" className="underline">
+          <p className="text-gray-600 mb-7 text-[20px]">Favorileriniz yok</p>
+          <Link to="/" className=" bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
             Ana Sayfa
           </Link>
         </div>
