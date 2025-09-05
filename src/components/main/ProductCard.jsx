@@ -4,7 +4,7 @@ import { useWishlist } from "../../context/WishlistContext";
 
 const PAGE_SIZE = 4;
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onAddToCart }) => {
   const [hovered, setHovered] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -56,10 +56,15 @@ const ProductCard = ({ product }) => {
   };
 
   const nudge = (dir = 1) => {
-    setPage((p) => {
-      const next = Math.min(Math.max(p + dir, 0), totalPages - 1);
-      return next;
-    });
+    setPage((p) => Math.min(Math.max(p + dir, 0), totalPages - 1));
+  };
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const payload = { product, size: selectedSize };
+    if (onAddToCart) onAddToCart(payload);
+    else console.log("Add to cart:", payload);
   };
 
   return (
@@ -69,6 +74,7 @@ const ProductCard = ({ product }) => {
       onMouseLeave={() => {
         setHovered(false);
         setImageIndex(0);
+        // keep selectedSize; button will hide with hover out
       }}
     >
       <div className="relative overflow-hidden" onMouseMove={handleMouseMove}>
@@ -79,7 +85,8 @@ const ProductCard = ({ product }) => {
             e.stopPropagation();
             toggle(product.id);
           }}
-          className="absolute top-2 right-2 z-20 bg-[rgb(238,238,237)] rounded-full p-2 cursor-pointer"
+          className="absolute top-2 right-2 z-20 bg-[rgb(238,238,237)] rounded-full p-2"
+          aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
         >
           {wished ? (
             <FaHeart className="text-red-500 w-4 h-4" />
@@ -124,8 +131,8 @@ const ProductCard = ({ product }) => {
             onPointerMove={(e) => e.stopPropagation()}
           >
             <div className="relative bg-[rgba(238,238,238,0.83)] backdrop-blur-sm border-t border-gray-200">
-              {/* 4-per-view grid */}
-              <div className="relative px-10 py-3">
+              <div className="relative px-10 pt-3 pb-2">
+                {/* 4-per-view grid */}
                 <div className="grid grid-cols-4 gap-2">
                   {visible.map(({ label, disabled }, i) => (
                     <button
@@ -136,13 +143,13 @@ const ProductCard = ({ product }) => {
                         e.stopPropagation();
                         if (!disabled) setSelectedSize(label);
                       }}
-                      className={`min-w-[44px] whitespace-nowrap h-9 px-2 cursor-pointer text-[10px] rounded
+                      className={`min-w-[44px] whitespace-nowrap h-9 px-2 text-[10px] cursor-pointer rounded
                         ${
                           disabled
                             ? "border border-gray-200 text-gray-300 line-through"
                             : selectedSize === label
                             ? "bg-black text-white"
-                            : "text-gray-800"
+                            : "text-gray-800 "
                         }`}
                     >
                       {label}
@@ -161,7 +168,7 @@ const ProductCard = ({ product }) => {
                         nudge(-1);
                       }}
                       disabled={clampedPage === 0}
-                      className={`absolute left-1 top-1/2 -translate-y-1/2 h-5 w-5 cursor-pointer rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
+                      className={`absolute left-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
                         clampedPage === 0 ? "opacity-40" : ""
                       }`}
                     >
@@ -182,10 +189,8 @@ const ProductCard = ({ product }) => {
                         nudge(1);
                       }}
                       disabled={clampedPage === totalPages - 1}
-                      className={`absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 cursor-pointer rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
-                        clampedPage === totalPages - 1
-                          ? "opacity-40"
-                          : ""
+                      className={`absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-lg bg-white hover:bg-gray-50 flex items-center justify-center ${
+                        clampedPage === totalPages - 1 ? "opacity-40" : ""
                       }`}
                     >
                       <svg viewBox="0 0 24 24" className="w-4 h-4">
@@ -199,6 +204,23 @@ const ProductCard = ({ product }) => {
                     </button>
                   </>
                 )}
+
+                {/* === Add-to-cart bar (appears only when a size is selected) === */}
+                <div
+                  className={`
+                    overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-out
+                    ${selectedSize ? "max-h-16 opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-1"}
+                  `}
+                >
+                  <div className="pt-2">
+                    <button
+                      onClick={handleAddToCart}
+                      className="w-full h-10 rounded-md bg-black text-white text-xs cursor-pointer font-semibold tracking-wide">
+                      Sebete Ekle
+                    </button>
+                  </div>
+                </div>
+                {/* === /Add-to-cart bar === */}
               </div>
             </div>
           </div>
