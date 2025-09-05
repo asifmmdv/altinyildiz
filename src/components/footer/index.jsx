@@ -46,7 +46,7 @@ function Footer() {
   const toggle = (name) => setOpen((prev) => (prev === name ? null : name));
 
   return (
-    <footer className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px]">
+    <footer className="w-full mt-10 max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px]">
       <div className='flex w-full justify-center gap-1 tablet:gap-8 tablet-lg:gap-10 laptop:gap-14 border-t border-[rgb(238,238,237)] laptop:border-b'>
         <div className='flex flex-col desktop:flex-row py-5 items-center justify-center gap-2'>
             <div className='bg-[#EEEEEE] rounded-full p-2'>

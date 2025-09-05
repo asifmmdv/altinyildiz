@@ -5,9 +5,9 @@ const ProductCard = ({ product }) => {
   const [hovered, setHovered] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
 
-  // handle hover movement
+  // handle hover movement (only on laptop+)
   const handleMouseMove = (e) => {
-    if (!hovered || !product.images) return;
+    if (!hovered || !product.images || window.innerWidth < 1024) return;
 
     const { left, width } = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - left;
@@ -35,12 +35,26 @@ const ProductCard = ({ product }) => {
           <FaRegHeart className="text-gray-700 w-4 h-4" />
         </button>
 
-        {/* Product image */}
+        {/* Main product image */}
         <img
           src={product.images?.[imageIndex] || product.images?.[0]}
           alt={product.name}
           className="object-contain w-full transition duration-300"
         />
+
+        {/* --- Line Indicators at Bottom of Image --- */}
+        {product.images?.length > 1 && (
+          <div className="hidden laptop:flex absolute bottom-0 left-0 items-center right-0 bg-[white] h-4 justify-center gap-1 ">
+            {product.images.map((_, idx) => (
+              <span
+                key={idx}
+                className={`h-[5px] flex-1 transition ${
+                  idx === imageIndex ? "bg-[rgb(102,102,102)]" : "bg-[rgb(176,175,175)]"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Info */}
