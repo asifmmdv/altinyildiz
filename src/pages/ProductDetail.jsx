@@ -384,8 +384,8 @@ export default function ProductDetail() {
                         className={
                           `px-3 py-2 rounded text-sm transition
                            ${active
-                             ? "border-2 border-black"
-                             : "border border-gray-300 hover:bg-gray-50"}`
+                             ? "bg-[black] text-white"
+                             : "border border-black hover:bg-gray-50"}`
                         }
                         aria-pressed={active}
                         aria-label={`Beden ${size}${active ? " (seçili)" : ""}`}
