@@ -162,7 +162,7 @@ export default function BasketPage() {
                       aria-label="Kaldır"
                       title="Kaldır"
                     >
-                      <GoTrash className="w-4 h-4" />
+                      <GoTrash className="w-5 h-5" />
                     </button>
                   </footer>
                 </div>
