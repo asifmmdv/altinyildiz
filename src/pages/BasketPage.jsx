@@ -12,7 +12,7 @@ function QtyDropdown({ value, onChange, options }) {
     <div className="relative inline-block min-w-[140px]">
       <button
         type="button"
-        className="w-full border rounded-md px-3 py-2 text-[12px] laptop:text-[14px] bg-white flex justify-between items-center"
+        className="w-full border rounded-md px-3 py-2 cursor-pointer text-[12px] laptop:text-[14px] bg-white flex justify-between items-center"
         onClick={() => setOpen(!open)}
       >
         {value} Adet
@@ -158,7 +158,7 @@ export default function BasketPage() {
                     <button
                       type="button"
                       onClick={() => basket.remove(l.key)}
-                      className="js-basket-remove-btn inline-flex items-center justify-center text-sm w-10 h-10 rounded-xl bg-[rgb(238,238,237)]"
+                      className="js-basket-remove-btn inline-flex cursor-pointer items-center justify-center text-sm w-10 h-10 rounded-xl bg-[rgb(238,238,237)]"
                       aria-label="Kaldır"
                       title="Kaldır"
                     >
@@ -197,7 +197,7 @@ export default function BasketPage() {
 
         <button
           onClick={basket.clear}
-          className="w-full py-2 mt-3 text-sm underline"
+          className="w-full py-2 mt-3 text-sm underline cursor-pointer"
         >
           Sepeti temizle
         </button>
