@@ -8,9 +8,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { FaRegHeart } from "react-icons/fa";
 
-// -------------------- Utilities --------------------
+// ❤️ Wishlist
+import { useWishlist } from "../components/context/WishListContext";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+
+/* -------------------- Utilities -------------------- */
 function findProductById(categories, id, trail = []) {
   for (const category of categories) {
     const nextTrail = [...trail, { name: category.name, slug: category.slug }];
@@ -30,7 +33,7 @@ function findProductById(categories, id, trail = []) {
 function computeAverageFromReviews(reviews = []) {
   if (!Array.isArray(reviews) || reviews.length === 0) return null;
   const sum = reviews.reduce((acc, r) => acc + (Number(r.rating) || 0), 0);
-  return +(sum / reviews.length).toFixed(1); // 1 decimal
+  return +(sum / reviews.length).toFixed(1);
 }
 
 function getStarTypes(avg) {
@@ -45,8 +48,6 @@ function getStarTypes(avg) {
 }
 
 /** ---- Helpers for "Similar Products" ---- **/
-
-// Walk the catalog by a slug path (the same shape as `path` from findProductById)
 function getNodeBySlugPath(rootCategories, slugPath = []) {
   let nodes = rootCategories;
   let current = null;
@@ -59,21 +60,16 @@ function getNodeBySlugPath(rootCategories, slugPath = []) {
   return current;
 }
 
-// Collect all products from a category node (recursively through subcategories)
 function collectProductsFromNode(node, out = []) {
   if (!node) return out;
-  if (Array.isArray(node.products)) {
-    for (const p of node.products) out.push(p);
-  }
+  if (Array.isArray(node.products)) for (const p of node.products) out.push(p);
   if (Array.isArray(node.subcategories)) {
-    for (const sub of node.subcategories) {
-      collectProductsFromNode(sub, out);
-    }
+    for (const sub of node.subcategories) collectProductsFromNode(sub, out);
   }
   return out;
 }
 
-// -------------------- Star Icons (custom colors) --------------------
+/* -------------------- Star Icons -------------------- */
 const Star = ({ type = "empty", className = "w-4 h-4" }) => {
   const gradId = useId();
   const yellow = "rgb(254 192 0)";
@@ -117,7 +113,7 @@ const Star = ({ type = "empty", className = "w-4 h-4" }) => {
   );
 };
 
-// -------------------- Page --------------------
+/* -------------------- Page -------------------- */
 export default function ProductDetail() {
   const { id } = useParams();
   const found = findProductById(data.categories, id);
@@ -134,27 +130,29 @@ export default function ProductDetail() {
   }
 
   const { product, path } = found;
+
+  // ❤️ wishlist state
+  const { isWished, toggle } = useWishlist();
+  const wished = isWished(product.id);
+  const toggleWish = () => toggle(product.id);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const images = product.images || [];
   const hasVideo = Array.isArray(product.video) && product.video.length > 0;
 
-  // Build media array and put the video at index 1 (second)
   const media = useMemo(() => {
     const base = images.map((src) => ({ type: "image", src }));
     if (hasVideo) {
       const vid = { type: "video", src: product.video[0] };
-      base.splice(Math.min(1, base.length), 0, vid); // insert as 2nd item if possible
+      base.splice(Math.min(1, base.length), 0, vid);
     }
     return base;
   }, [images, hasVideo, product.video]);
 
-  // Ratings derived from reviews
   const reviews = Array.isArray(product.reviews) ? product.reviews : [];
   const average = useMemo(() => computeAverageFromReviews(reviews), [reviews]);
-  const starTypes = getStarTypes(average);
   const reviewsCount = reviews.length;
 
-  // Sort reviews by date (newest first)
   const sortedReviews = useMemo(() => {
     return [...reviews].sort((a, b) => {
       const da = new Date(a.date || 0).getTime();
@@ -163,14 +161,11 @@ export default function ProductDetail() {
     });
   }, [reviews]);
 
-  /** ---- Compute Similar Products (same containing category) ---- **/
   const similar = useMemo(() => {
     if (!Array.isArray(path) || path.length === 0) return [];
-    // The last segment in `path` is the category that directly contains this product
     const slugPath = path.map((seg) => seg.slug);
     const containerNode = getNodeBySlugPath(data.categories, slugPath);
     const all = collectProductsFromNode(containerNode);
-    // remove the current product and de-dup by id just in case
     const filtered = [];
     const seen = new Set([product.id]);
     for (const p of all) {
@@ -182,33 +177,25 @@ export default function ProductDetail() {
     return filtered;
   }, [path, product.id]);
 
-  // --- Mobile bottom bar show/hide on scroll ---
+  // Mobile bottom bar show/hide
   const [showBottomBar, setShowBottomBar] = useState(false);
   const lastScrollYRef = useRef(typeof window !== "undefined" ? window.scrollY : 0);
   const tickingRef = useRef(false);
 
   useEffect(() => {
-    const THRESHOLD = 160; // start logic after scrolling this many px
-    const DELTA = 3;       // ignore tiny jitter
+    const THRESHOLD = 160;
+    const DELTA = 3;
 
     const onScroll = () => {
       const y = window.scrollY;
       if (tickingRef.current) return;
-
       tickingRef.current = true;
       window.requestAnimationFrame(() => {
         const delta = y - lastScrollYRef.current;
 
-        if (y < THRESHOLD) {
-          // near top: keep hidden
-          setShowBottomBar(false);
-        } else if (delta > DELTA) {
-          // scrolling down → show
-          setShowBottomBar(true);
-        } else if (delta < -DELTA) {
-          // scrolling up → hide
-          setShowBottomBar(false);
-        }
+        if (y < THRESHOLD) setShowBottomBar(false);
+        else if (delta > DELTA) setShowBottomBar(true);
+        else if (delta < -DELTA) setShowBottomBar(false);
 
         lastScrollYRef.current = y;
         tickingRef.current = false;
@@ -219,8 +206,11 @@ export default function ProductDetail() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // ---- IMPORTANT: ensure no ancestor blocks sticky ----
+  // We add overflow-visible to wrapper & grid, avoid transform on ancestors of sticky column.
+
   return (
-    <div className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] pb-[88px] tablet-lg:pb-0">
+    <div className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] pb-[88px] tablet-lg:pb-0 overflow-visible">
       {/* breadcrumb */}
       <nav className="text-xs text-gray-500 my-3 flex px-2 flex-wrap gap-1">
         <Link to="/" className="hover:underline">Anasayfa</Link>
@@ -236,10 +226,11 @@ export default function ProductDetail() {
         <span className="text-gray-700">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 tablet-lg:grid-cols-2 laptop:gap-5 desktop:gap-10">
-        {/* gallery */}
-        <div>
-          {/* ≤768px: swipeable gallery (video is 2nd slide) */}
+      {/* grid: make sure items-start + overflow-visible so sticky works */}
+      <div className="grid grid-cols-1 tablet-lg:grid-cols-2 laptop:gap-5 desktop:gap-10 items-start overflow-visible">
+        {/* gallery (left) */}
+        <div className="overflow-visible">
+          {/* ≤768px: swipeable */}
           <div className="tablet-lg:hidden">
             {media.length > 0 ? (
               <Swiper
@@ -279,8 +270,8 @@ export default function ProductDetail() {
             )}
           </div>
 
-          {/* ≥768px: 2-per-row grid with fixed item size (video is 2nd item) */}
-          <div className="hidden tablet-lg:block">
+          {/* ≥768px: grid of media */}
+          <div className="hidden tablet-lg:block overflow-visible">
             <div className="grid grid-cols-2 gap-3">
               {media.length > 0 ? (
                 media.map((m, idx) => (
@@ -313,114 +304,129 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* info */}
-        <div className="flex flex-col gap-3 laptop:gap-3 max-laptop:p-5">
-          <div className="flex items-center gap-2 justify-between">
-            <h1 className="text-[14px] tablet-lg:text-[18px] font-medium">{product.name}</h1>
+        {/* info (right) — STICKY on laptop+ */}
+        <div className="max-laptop:p-5 laptop:sticky laptop:top-[122px] laptop:self-start laptop:max-h-[calc(100vh-88px)] laptop:overflow-auto">
+          <div className="flex flex-col gap-3 laptop:gap-3">
+            <div className="flex items-center gap-2 justify-between">
+              <h1 className="text-[14px] tablet-lg:text-[18px] font-medium">{product.name}</h1>
 
-            {/* show heart only until tablet-lg */}
-            <button className="tablet-lg:hidden bg-[rgb(238,238,237)] rounded-lg p-2">
-              <FaRegHeart />
-            </button>
-          </div>
-
-          {/* ratings row */}
-          <div className="flex items-center gap-2 text-gray-700">
-            <div className="flex items-center gap-0.5">
-              {starTypes.map((t, i) => (
-                <Star key={i} type={t} className="w-4 h-4" />
-              ))}
+              {/* ❤️ mobile wishlist toggle (shown until tablet-lg) */}
+              <button
+                onClick={toggleWish}
+                aria-label={wished ? "Favoridən çıxar" : "Favorilərə əlavə et"}
+                className="tablet-lg:hidden bg-[rgb(238,238,237)] rounded-lg p-2"
+              >
+                {wished ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+              </button>
             </div>
-            {average != null ? (
-              <span className="text-sm">({average}/5)</span>
-            ) : (
-              <span className="text-sm text-gray-500">Henüz değerlendirme yok</span>
-            )}
-            {reviewsCount > 0 && (
-              <span className="text-xs text-gray-500">• {reviewsCount} değerlendirme</span>
-            )}
-          </div>
 
-          <div className="text-gray-600 text-sm">Renk: {product.color}</div>
-
-          {/* price (desktop/tablet only) */}
-          <div className="hidden tablet-lg:block">
-            <div className="text-[black] text-xl font-medium">{product.price}</div>
-          </div>
-
-          {product.sizes?.length > 0 && (
-            <div>
-              <div className="text-sm font-medium mb-2">Beden</div>
-              <div className="flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
-                  <button key={size} className="px-3 py-2 border rounded hover:bg-gray-50 text-sm">
-                    {size}
-                  </button>
+            {/* ratings */}
+            <div className="flex items-center gap-2 text-gray-700">
+              <div className="flex items-center gap-0.5">
+                {getStarTypes(average).map((t, i) => (
+                  <Star key={i} type={t} className="w-4 h-4" />
                 ))}
               </div>
+              {average != null ? (
+                <span className="text-sm">({average}/5)</span>
+              ) : (
+                <span className="text-sm text-gray-500">Henüz değerlendirme yok</span>
+              )}
+              {reviewsCount > 0 && (
+                <span className="text-xs text-gray-500">• {reviewsCount} değerlendirme</span>
+              )}
             </div>
-          )}
 
-          {product.details?.length > 0 && (
-            <div>
-              <div className="text-sm font-medium mb-2">Ürün Özellikleri</div>
-              <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
-                {product.details.map((detail, i) => (
-                  <li key={i}>{detail}</li>
-                ))}
-              </ul>
+            <div className="text-gray-600 text-sm">Renk: {product.color}</div>
+
+            {/* price (tablet+ only) */}
+            <div className="hidden tablet-lg:block">
+              <div className="text-[black] text-xl font-medium">{product.price}</div>
             </div>
-          )}
 
-          {/* add to cart row (desktop/tablet only) */}
-          <div className="hidden tablet-lg:flex gap-3 pt-2">
-            <button className="flex-1 bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
-              Sepete Ekle
-            </button>
-            <button className="border rounded-lg px-4 py-3 text-sm font-medium">
-              <FaRegHeart />
-            </button>
-          </div>
-
-          <div className="text-xs text-gray-500 mt-2">Ürün Kodu: {product.id}</div>
-
-          {/* -------- Similar Products (inside info column on tablet+) -------- */}
-          {similar.length > 0 && (
-            <div className="hidden tablet-lg:block pt-4">
-              <h3 className="text-base font-medium mb-3">Beğenebileceğiniz Benzer Ürünler</h3>
-              <div className="grid grid-cols-2 gap-3">
-                {similar.map((p) => (
-                  <Link
-                    key={p.id}
-                    to={`/product/${p.id}`}
-                    className="overflow-hidden w-[155px] bg-white"
-                  >
-                    <div>
-                      <img
-                        src={p.images?.[0]}
-                        alt={p.name}
-                        className="w-[155px] h-[225px] object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="p-2">
-                      <div className="text-[12px] ">{p.name}</div>
-                      {p.price && (
-                        <div className="text-[12px] font-medium mt-1 text-black">{p.price}</div>
-                      )}
-                    </div>
-                    <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
-                      Ürünü incele
+            {/* sizes */}
+            {product.sizes?.length > 0 && (
+              <div>
+                <div className="text-sm font-medium mb-2">Beden</div>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button key={size} className="px-3 py-2 border rounded hover:bg-gray-50 text-sm">
+                      {size}
                     </button>
-                  </Link>
-                ))}
+                  ))}
+                </div>
               </div>
+            )}
+
+            {/* details */}
+            {product.details?.length > 0 && (
+              <div>
+                <div className="text-sm font-medium mb-2">Ürün Özellikleri</div>
+                <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                  {product.details.map((detail, i) => (
+                    <li key={i}>{detail}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* actions (tablet+ only) */}
+            <div className="hidden tablet-lg:flex gap-3 pt-2">
+              <button className="flex-1 bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
+                Sepete Ekle
+              </button>
+              <button
+                onClick={toggleWish}
+                aria-label={wished ? "Favoridən çıxar" : "Favorilərə əlavə et"}
+                className={`border rounded-lg px-4 py-3 text-sm font-medium inline-flex items-center justify-center gap-2 ${
+                  wished ? "border-red-500" : ""
+                }`}
+                title={wished ? "Favoridən çıxar" : "Favorilərə əlavə et"}
+              >
+                {wished ? <FaHeart className="w-4 h-4 text-red-500" /> : <FaRegHeart className="w-4 h-4" />}
+              </button>
             </div>
-          )}
+
+            <div className="text-xs text-gray-500 mt-2">Ürün Kodu: {product.id}</div>
+
+            {/* Similar (inside info column on tablet+) */}
+            {similar.length > 0 && (
+              <div className="hidden tablet-lg:block pt-4">
+                <h3 className="text-base font-medium mb-3">Beğenebileceğiniz Benzer Ürünler</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {similar.map((p) => (
+                    <Link
+                      key={p.id}
+                      to={`/product/${p.id}`}
+                      className="overflow-hidden w-[155px] bg-white"
+                    >
+                      <div>
+                        <img
+                          src={p.images?.[0]}
+                          alt={p.name}
+                          className="w-[155px] h-[225px] object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="p-2">
+                        <div className="text-[12px]">{p.name}</div>
+                        {p.price && (
+                          <div className="text-[12px] font-medium mt-1 text-black">{p.price}</div>
+                        )}
+                      </div>
+                      <button className="ml-auto h-[44px] w-[151px] bg-black text-white rounded-lg px-4 py-3 text-sm font-medium">
+                        Ürünü incele
+                      </button>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* -------- Similar Products (mobile only) -------- */}
+      {/* Similar (mobile only) */}
       {similar.length > 0 && (
         <div className="mt-12 px-5 tablet-lg:hidden">
           <h2 className="text-base font-medium mb-4">Beğenebileceğiniz Benzer Ürünler</h2>
@@ -440,7 +446,7 @@ export default function ProductDetail() {
                   />
                 </div>
                 <div className="p-2">
-                  <div className="text-[12px] ">{p.name}</div>
+                  <div className="text-[12px]">{p.name}</div>
                   {p.price && (
                     <div className="text-[12px] font-medium mt-1 text-black">{p.price}</div>
                   )}
@@ -454,7 +460,7 @@ export default function ProductDetail() {
         </div>
       )}
 
-      {/* Reviews section */}
+      {/* Reviews */}
       <div className="mt-10 px-2">
         <h2 className="text-base tablet-lg:text-lg text-center font-semibold mb-4">Değerlendirmeler</h2>
         {reviewsCount === 0 ? (
@@ -465,7 +471,7 @@ export default function ProductDetail() {
               const types = getStarTypes(rev.rating || 0);
               const dateStr = rev.date ? new Date(rev.date).toLocaleDateString("tr-TR") : "";
               return (
-                <li key={idx} className="rounded-lg p-4 shadow-lg border-[rgb(238,238,237)]">
+                <li key={idx} className="rounded-lg p-4 border-2 border-[rgb(238,238,237)]">
                   <div className="flex items-center justify-between">
                     <div className="font-medium text-sm">{rev.user || "Anonim"}</div>
                     <div className="text-xs text-gray-500">{dateStr}</div>
@@ -488,12 +494,12 @@ export default function ProductDetail() {
         )}
       </div>
 
-      {/* Mobile bottom bar (≤768px) with scroll-aware show/hide */}
+      {/* Mobile bottom bar (≤768px) */}
       <div
         className={
           `tablet-lg:hidden fixed inset-x-0 bottom-0 border-t border-[rgb(238,238,237)]
-           shadow-lg shadow-[rgb(0,0,0)] z-50 bg-white
-           transform transition-transform duration-300 will-change-transform
+           shadow-lg z-50 bg-white
+           transition-transform duration-300
            ${showBottomBar ? "translate-y-0" : "translate-y-full pointer-events-none"}`
         }
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom))" }}

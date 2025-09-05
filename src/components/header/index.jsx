@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { BsBoxSeam } from "react-icons/bs";
+// src/components/header.jsx
+import React, { useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { IoIosHeartEmpty, IoIosSearch } from "react-icons/io";
+import { IoIosSearch } from "react-icons/io";
 import { PiBagLight } from "react-icons/pi";
 import { VscAccount } from "react-icons/vsc";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { HiMiniXMark } from "react-icons/hi2";
+import { useNavigate, Link } from "react-router-dom";
 import { data } from "../../data/data";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+
+// ❤️ Wishlist
+import { useWishlist } from "../context/WishListContext";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -17,7 +20,12 @@ function Header() {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [showRowMenu, setShowRowMenu] = useState(true);
+
   const navigate = useNavigate();
+
+  // ❤️ get wishlist count
+  const { count } = useWishlist();
 
   const onClose = () => {
     setShowSidebar(false);
@@ -47,7 +55,7 @@ function Header() {
     return categoryStack[level - 1]?.subcategories || [];
   };
 
-  // ---- Inline search without flatten/modal ----
+  // ---- Inline search ----
   const searchProducts = (root, q) => {
     const text = q.trim().toLowerCase();
     if (!text) return [];
@@ -57,7 +65,6 @@ function Header() {
     const visit = (node, trail = []) => {
       if (!node) return;
 
-      // collect products at this node
       if (Array.isArray(node.products)) {
         node.products.forEach((p) => {
           const hay = [
@@ -79,7 +86,6 @@ function Header() {
         });
       }
 
-      // recurse into subcategories
       if (Array.isArray(node.subcategories)) {
         node.subcategories.forEach((child) =>
           visit(child, [...trail, { name: child.name, slug: child.slug }])
@@ -87,12 +93,10 @@ function Header() {
       }
     };
 
-    // start from each root category
     (root?.categories || []).forEach((rootCat) => {
       visit(rootCat, [{ name: rootCat.name, slug: rootCat.slug }]);
     });
 
-    // simple ranking: prefer name startsWith
     out.sort((a, b) => {
       const aName = (a.name || "").toLowerCase();
       const bName = (b.name || "").toLowerCase();
@@ -113,31 +117,28 @@ function Header() {
     }
     setResults(searchProducts(data, val));
   };
-  // inside your Header.jsx
-  const [showRowMenu, setShowRowMenu] = useState(true);
 
+  // row menu hide/show
   useEffect(() => {
     let lastY = window.scrollY;
-
-    // no addEventListener, just assign directly
     window.onscroll = () => {
       const y = window.scrollY;
 
       if (y <= 16) {
-        setShowRowMenu(true);        // at top → show
+        setShowRowMenu(true);
       } else if (y > lastY) {
-        setShowRowMenu(false);       // scrolling down → hide
+        setShowRowMenu(false);
       } else if (y < lastY) {
-        setShowRowMenu(true);        // scrolling up → show
+        setShowRowMenu(true);
       }
 
       lastY = y;
     };
+    return () => {
+      window.onscroll = null;
+    };
+  }, []);
 
-  return () => {
-    window.onscroll = null; // cleanup
-  };
-}, []);
   return (
     <>
       {/* Drawer (Sidebar) */}
@@ -217,37 +218,52 @@ function Header() {
           </button>
 
           <div className="flex items-center max-laptop:pl-2 max-laptop:mr-auto justify-center laptop:mx-auto">
-            <img className="h-[16px] min-w-[148px] laptop:h-[38px] laptop:w-[310px] cursor-pointer" 
-            src="/img/logo.png" 
-            alt="logo"
-            onClick={() => navigate("/")} />
+            <img
+              className="h-[16px] min-w-[148px] laptop:h-[38px] laptop:w-[310px] cursor-pointer" 
+              src="/img/logo.png" 
+              alt="logo"
+              onClick={() => navigate("/")} 
+            />
           </div>
 
           <div className="flex laptop:gap-1">
-            {/* Search icon toggles inline search bar */}
-            <div>
-              <div
-                className="flex justify-center w-[28px] h-[40px] items-center cursor-pointer"
-                onClick={() => {
-                  const next = !showSearchBar;
-                  setShowSearchBar(next);
-                  if (!next) {
-                    setQuery("");
-                    setResults([]);
-                  }
-                }}
-                aria-label="Ara"
-                role="button"
-              >
-                <IoIosSearch className="h-[18px] w-[18px] laptop:h-[20px] laptop:w-[20px]" />
-              </div>
+            {/* Search */}
+            <div
+              className="flex justify-center w-[28px] h-[40px] items-center cursor-pointer"
+              onClick={() => {
+                const next = !showSearchBar;
+                setShowSearchBar(next);
+                if (!next) {
+                  setQuery("");
+                  setResults([]);
+                }
+              }}
+              aria-label="Ara"
+              role="button"
+            >
+              <IoIosSearch className="h-[18px] w-[18px] laptop:h-[20px] laptop:w-[20px]" />
             </div>
-            <div className="flex justify-center w-[28px] h-[40px] items-center">
-              <IoIosHeartEmpty className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
-            </div>
+
+            {/* ❤️ Wishlist */}
+            <Link to="/wishlist" className="flex justify-center w-[28px] h-[40px] items-center relative">
+              {count > 0 ? (
+                <FaHeart className="h-[16px] w-[16px] text-red-500 laptop:h-[20px] laptop:w-[20px]" />
+              ) : (
+                <FaRegHeart className="h-[14px] w-[14px] laptop:h-[18px] laptop:w-[18px]" />
+              )}
+              {count > 0 && (
+                <span className="absolute -top-1 -right-1 bg-black text-white rounded-full text-[10px] h-4 w-4 flex items-center justify-center">
+                  {count}
+                </span>
+              )}
+            </Link>
+
+            {/* Account */}
             <div className="flex justify-center w-[28px] h-[40px] items-center">
               <VscAccount className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
             </div>
+
+            {/* Bag */}
             <div className="flex justify-center w-[28px] h-[40px] items-center relative">
               <PiBagLight className="h-[15px] w-[15px] laptop:h-[20px] laptop:w-[20px]" />
               <div className="text-white rounded-full bg-[rgb(94,94,94)] flex items-center justify-center h-[12px] w-[12px] laptop:h-[14px] laptop:w-[14px] absolute left-4 top-3 text-[10px]">
@@ -258,13 +274,14 @@ function Header() {
         </div>
       </div>
 
-      {/* Row Menu (only >= 1024px) */}
+      {/* Row Menu (desktop only) */}
       <div
         className={`
           hidden lg:flex w-full justify-center items-center bg-white h-[72px] pt-2 sticky top-0 z-40
           transition-all duration-500 ease-in-out
           ${showRowMenu ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
-        `}>
+        `}
+      >
         <div className="max-w-[1240px] mx-auto flex px-4 py-3 text-[12px] font-medium text-[rgb(91,91,91)]">
           <button onClick={() => navigate("/products/takim-elbise")} className="hover:text-black border-r px-4 border-[black] cursor-pointer">
             Takım Elbise

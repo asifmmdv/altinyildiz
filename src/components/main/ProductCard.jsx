@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { useWishlist } from "../context/WishListContext";
 
 const ProductCard = ({ product }) => {
   const [hovered, setHovered] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+
+  // ❤️ wishlist state
+  const { isWished, toggle } = useWishlist();
+  const wished = isWished(product.id);
 
   // handle hover movement (only on laptop+)
   const handleMouseMove = (e) => {
@@ -30,9 +35,20 @@ const ProductCard = ({ product }) => {
       onMouseMove={handleMouseMove}
     >
       <div className="relative overflow-hidden">
-        {/* Heart icon */}
-        <button className="absolute top-2 right-2 z-10 bg-[rgb(238,238,237)] rounded-full p-2 cursor-pointer">
-          <FaRegHeart className="text-gray-700 w-4 h-4" />
+        {/* ❤️ Heart icon */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggle(product.id);
+          }}
+          className="absolute top-2 right-2 z-10 bg-[rgb(238,238,237)] rounded-full p-2 cursor-pointer"
+        >
+          {wished ? (
+            <FaHeart className="text-red-500 w-4 h-4" />
+          ) : (
+            <FaRegHeart className="text-gray-700 w-4 h-4" />
+          )}
         </button>
 
         {/* Main product image */}
@@ -44,12 +60,14 @@ const ProductCard = ({ product }) => {
 
         {/* --- Line Indicators at Bottom of Image --- */}
         {product.images?.length > 1 && (
-          <div className="hidden laptop:flex absolute bottom-0 left-0 items-center right-0 bg-[white] h-4 justify-center gap-1 ">
+          <div className="hidden laptop:flex absolute bottom-0 left-0 items-center right-0 bg-white h-4 justify-center gap-1">
             {product.images.map((_, idx) => (
               <span
                 key={idx}
                 className={`h-[5px] flex-1 transition ${
-                  idx === imageIndex ? "bg-[rgb(102,102,102)]" : "bg-[rgb(176,175,175)]"
+                  idx === imageIndex
+                    ? "bg-[rgb(102,102,102)]"
+                    : "bg-[rgb(176,175,175)]"
                 }`}
               />
             ))}

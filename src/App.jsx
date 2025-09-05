@@ -6,20 +6,23 @@ import Footer from './components/footer';
 import ProductPage from './pages/ProductPage';
 import ProductDetail from './pages/ProductDetail';
 import ScrollToTop from './components/utilities/ScrollToTop';
-
+import { WishlistProvider } from './components/context/WishListContext';       // ⬅️ add
+import WishlistPage from './pages/WishListpage';
+               // ⬅️ add
 
 function App() {
   return (
-    <>
+    <WishlistProvider>  {/* ⬅️ wrap everything so Header/Product pages can use it */}
       <Header />
-      <ScrollToTop /> {/* ⬅️ add this line */}
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/products/:slug" element={<ProductPage />} />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/wishlist" element={<WishlistPage />} />         {/* ⬅️ new */}
       </Routes>
       <Footer />
-    </>
+    </WishlistProvider>
   );
 }
 
