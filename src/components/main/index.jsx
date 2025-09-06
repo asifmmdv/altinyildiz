@@ -1,71 +1,46 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { data } from '../../data/data';
-import TopSwiper from './TopSwiper';
-import ProductSwiper from './ProductSwiper';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { data } from "../../data/data";
+import TopSwiper from "./TopSwiper";
+import ProductSwiper from "./ProductSwiper";
 
 function Main() {
   const navigate = useNavigate();
+
+  // Shorthands into your catalog structure
+  const ROOT = data.categories?.[0];
+  const G1 = ROOT?.subcategories?.[0]; // the branch you were using repeatedly
+
+  // Helpers to fetch images from common paths you used
+  const imgG1 = (slug) => G1?.subcategories?.find((c) => c.slug === slug)?.image;
+  const imgG1Child = (parent, child) =>
+    G1?.subcategories
+      ?.find((c) => c.slug === parent)
+      ?.subcategories?.find((s) => s.slug === child)?.image;
+
+  const imgTop = (slug) => ROOT?.subcategories?.find((c) => c.slug === slug)?.image;
+  const imgTopChild = (parent, child) =>
+    ROOT?.subcategories
+      ?.find((c) => c.slug === parent)
+      ?.subcategories?.find((s) => s.slug === child)?.image;
+
   const firstGroup = [
-    {
-      img: data.categories[0].subcategories[0].subcategories
-        .find(c => c.slug === 'tisort')
-        ?.subcategories.find(s => s.slug === 'polo-yaka-tisort')?.image,
-      slug: 'polo-yaka-tisort',
-    },
-    {
-      img: data.categories[0].subcategories[0].subcategories.find(c => c.slug === 'tisort')?.image,
-      slug: 'tisort',
-    },
-    {
-      img: data.categories[0].subcategories[0].subcategories.find(c => c.slug === 'gomlek')?.image,
-      slug: 'gomlek',
-    },
-    {
-      img: data.categories[0].subcategories[0].subcategories.find(c => c.slug === 'sweatshirt')?.image,
-      slug: 'sweatshirt',
-    },
-    {
-      img: data.categories[0].subcategories[0].subcategories
-        .find(c => c.slug === 'pantolon')
-        ?.subcategories.find(s => s.slug === 'jean')?.image,
-      slug: 'jean',
-    },
-    {
-      img: data.categories[0].subcategories[0].subcategories.find(c => c.slug === 'pantolon')?.image,
-      slug: 'pantolon',
-    },
-    {
-      img: data.categories[0].subcategories[0].subcategories.find(c => c.slug === 'ceket')?.image,
-      slug: 'ceket',
-    },
-    {
-      img: data.categories[0].subcategories[0].subcategories.find(c => c.slug === 'takim-elbise')?.image,
-      slug: 'takim-elbise',
-    },
-  ].filter(item => item.img);
+    { img: imgG1Child("tisort", "polo-yaka-tisort"), slug: "polo-yaka-tisort" },
+    { img: imgG1("tisort"), slug: "tisort" },
+    { img: imgG1("gomlek"), slug: "gomlek" },
+    { img: imgG1("sweatshirt"), slug: "sweatshirt" },
+    { img: imgG1Child("pantolon", "jean"), slug: "jean" },
+    { img: imgG1("pantolon"), slug: "pantolon" },
+    { img: imgG1("ceket"), slug: "ceket" },
+    { img: imgG1("takim-elbise"), slug: "takim-elbise" },
+  ].filter((x) => x.img);
 
   const lastFour = [
-    {
-      img: data.categories[0].subcategories.find(c => c.slug === 'ayakkabi')?.image,
-      slug: 'ayakkabi',
-    },
-    {
-      img: data.categories[0].subcategories.find(c => c.slug === 'ayakkabi')
-        ?.subcategories.find(s => s.slug === 'sneaker-spor-ayakkabi')?.image,
-      slug: 'sneaker-spor-ayakkabi',
-    },
-    {
-      img: data.categories[0].subcategories.find(c => c.slug === 'aksesuar')
-        ?.subcategories.find(s => s.slug === 'parfum')?.image,
-      slug: 'parfum',
-    },
-    {
-      img: data.categories[0].subcategories.find(c => c.slug === 'aksesuar')
-        ?.subcategories.find(s => s.slug === 'canta')?.image,
-      slug: 'canta',
-    },
-  ].filter(item => item.img);
+    { img: imgTop("ayakkabi"), slug: "ayakkabi" },
+    { img: imgTopChild("ayakkabi", "sneaker-spor-ayakkabi"), slug: "sneaker-spor-ayakkabi" },
+    { img: imgTopChild("aksesuar", "parfum"), slug: "parfum" },
+    { img: imgTopChild("aksesuar", "canta"), slug: "canta" },
+  ].filter((x) => x.img);
 
   return (
     <>
@@ -79,41 +54,34 @@ function Main() {
           <ProductSwiper />
 
           <div className="photos grid grid-cols-1 tablet-lg:grid-cols-2 laptop:mt-[-160px] gap-2 py-5">
-            {firstGroup.map((item, idx) => (
+            {firstGroup.map(({ img, slug }, idx) => (
               <img
                 key={idx}
-                src={item.img}
-                alt={`photo-${item.slug}`}
+                src={img}
+                alt={`photo-${slug}`}
                 className="w-full object-cover cursor-pointer"
                 role="button"
-                onClick={() => navigate(`/products/${item.slug}`)}
+                onClick={() => navigate(`/products/${slug}`)}
               />
             ))}
 
             {/* Last 4 photos in one row (clickable) */}
             <div className="grid grid-cols-2 tablet-lg:grid-cols-4 gap-2 col-span-full">
-              {lastFour.map((item, idx) => (
+              {lastFour.map(({ img, slug }, idx) => (
                 <img
                   key={`last-${idx}`}
-                  src={item.img}
-                  alt={`last-photo-${item.slug}`}
+                  src={img}
+                  alt={`last-photo-${slug}`}
                   className="w-full object-cover cursor-pointer"
                   role="button"
-                  onClick={() => navigate(`/products/${item.slug}`)}
+                  onClick={() => navigate(`/products/${slug}`)}
                 />
               ))}
             </div>
           </div>
-           <img
-            className="mt-10 block tablet-lg:hidden"
-            src="/img/downloadapp.jpg"
-            alt="dapp"
-          />
-          <img
-            className="mt-5 hidden tablet-lg:block"
-            src="/img/downloadappdesktop.jpg"
-            alt="dapp"
-          />
+
+          <img className="mt-10 block tablet-lg:hidden" src="/img/downloadapp.jpg" alt="dapp" />
+          <img className="mt-5 hidden tablet-lg:block" src="/img/downloadappdesktop.jpg" alt="dapp" />
         </section>
       </div>
     </>

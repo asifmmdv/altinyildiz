@@ -1,5 +1,5 @@
 // src/pages/BasketPage.jsx
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useBasket } from "../context/BasketContext";
 import { Link } from "react-router-dom";
 import { GoTrash, GoChevronDown } from "react-icons/go";
@@ -7,20 +7,15 @@ import { GoTrash, GoChevronDown } from "react-icons/go";
 /* ---------- Custom Qty Dropdown ---------- */
 function QtyDropdown({ value, onChange, options }) {
   const [open, setOpen] = useState(false);
-
   return (
     <div className="relative inline-block min-w-[140px]">
       <button
         type="button"
         className="w-full border rounded-md px-3 py-2 cursor-pointer text-[12px] laptop:text-[14px] bg-white flex justify-between items-center"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((o) => !o)}
       >
         {value} Adet
-        <GoChevronDown
-          className={`ml-2 h-4 w-4 text-gray-500 transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
-        />
+        <GoChevronDown className={`ml-2 h-4 w-4 text-gray-500 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open && (
@@ -43,27 +38,24 @@ function QtyDropdown({ value, onChange, options }) {
   );
 }
 
+const QTY_OPTIONS = Array.from({ length: 40 }, (_, i) => i + 1);
+
 /* ---------- Basket Page ---------- */
 export default function BasketPage() {
   const basket = useBasket();
-  const lines = Object.values(basket.items || {});
-  const itemCount = lines.reduce((sum, l) => sum + (l.qty || 0), 0);
+  const lines = useMemo(() => Object.values(basket.items || {}), [basket.items]);
+  const itemCount = useMemo(() => lines.reduce((sum, l) => sum + (l.qty || 0), 0), [lines]);
 
   if (!lines.length) {
     return (
       <div className="max-w-[1240px] mx-auto px-4 flex flex-col items-center gap-5 py-10 justify-center">
         <p className="text-gray-600 text-center">Sepetiniz boş.</p>
-        <Link
-          to="/"
-          className="rounded-xl flex justify-center items-center bg-black text-white"
-        >
+        <Link to="/" className="rounded-xl flex justify-center items-center bg-black text-white">
           <span className="p-3">Ana Sayfa</span>
         </Link>
       </div>
     );
   }
-
-  const qtyOptions = Array.from({ length: 40 }, (_, i) => i + 1);
 
   return (
     <div className="w-full max-tablet-lg:max-w-[640px] max-laptop:max-w-[768px] max-tablet:px-5 max-desktop:max-w-[984px] mx-auto max-desktop-lg:max-w-[1210px] max-desktop-xl:max-w-[1330px] desktop-xl:max-w-[1430px] pb-[88px] tablet-lg:pb-0 overflow-visible grid grid-cols-1 laptop:grid-cols-3 gap-8">
@@ -71,24 +63,20 @@ export default function BasketPage() {
       <div className="laptop:col-span-2">
         <div className="mb-4 flex items-center gap-2">
           <h1 className="text-[14px] tablet:text-2xl font-medium">Sepetim</h1>
-          <span className="text-[14px] tablet:text-2xl font-medium">
-            ({itemCount})
-          </span>
+          <span className="text-[14px] tablet:text-2xl font-medium">({itemCount})</span>
         </div>
 
         <ul>
           {lines.map((l, idx) => {
-            const compareAt =
-              l.compareAt ?? l.retailPrice ?? l.originalPrice ?? null;
+            const compareAt = l.compareAt ?? l.retailPrice ?? l.originalPrice ?? null;
             const productHref = l.href ?? (l.id ? `/product/${l.id}` : "#");
+            const showDivider = idx !== lines.length - 1;
 
             return (
               <li
                 key={l.key}
                 className={`js-cart-line-item py-4 h-[185px] laptop:h-[353px] flex gap-4 items-start ${
-                  idx !== lines.length - 1
-                    ? "border-b border-[rgb(238,238,237)]"
-                    : ""
+                  showDivider ? "border-b border-[rgb(238,238,237)]" : ""
                 }`}
               >
                 {/* Image */}
@@ -145,16 +133,12 @@ export default function BasketPage() {
 
                   {/* Footer: Qty dropdown + Remove */}
                   <footer className="mt-3 flex items-center justify-between">
-                    {/* Custom Qty Dropdown */}
                     <QtyDropdown
                       value={l.qty}
-                      options={qtyOptions}
-                      onChange={(newQty) =>
-                        basket.updateQty(l.key, parseInt(newQty, 10))
-                      }
+                      options={QTY_OPTIONS}
+                      onChange={(q) => basket.updateQty(l.key, parseInt(q, 10))}
                     />
 
-                    {/* Remove button (icon-only) */}
                     <button
                       type="button"
                       onClick={() => basket.remove(l.key)}
@@ -191,14 +175,8 @@ export default function BasketPage() {
           <span>{basket.format(basket.total)}</span>
         </div>
 
-        <button className="w-full py-3 rounded-xl bg-black text-white cursor-pointer">
-          Ödeme yap
-        </button>
-
-        <button
-          onClick={basket.clear}
-          className="w-full py-2 mt-3 text-sm underline cursor-pointer"
-        >
+        <button className="w-full py-3 rounded-xl bg-black text-white cursor-pointer">Ödeme yap</button>
+        <button onClick={basket.clear} className="w-full py-2 mt-3 text-sm underline cursor-pointer">
           Sepeti temizle
         </button>
       </aside>
